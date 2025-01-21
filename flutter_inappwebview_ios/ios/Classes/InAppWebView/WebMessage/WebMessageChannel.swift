@@ -19,9 +19,11 @@ public class WebMessageChannel: FlutterMethodCallDelegate {
         self.id = id
         self.plugin = plugin
         super.init()
-        let channel = FlutterMethodChannel(name: WebMessageChannel.METHOD_CHANNEL_NAME_PREFIX + id,
-                                           binaryMessenger: plugin.registrar.messenger())
-        self.channelDelegate = WebMessageChannelChannelDelegate(webMessageChannel: self, channel: channel)
+        if let registrar = plugin.registrar {
+            let channel = FlutterMethodChannel(name: WebMessageChannel.METHOD_CHANNEL_NAME_PREFIX + id,
+                                               binaryMessenger: registrar.messenger())
+            self.channelDelegate = WebMessageChannelChannelDelegate(webMessageChannel: self, channel: channel)
+        }
         self.ports = [
             WebMessagePort(name: "port1", index: 0, webMessageChannelId: self.id, webMessageChannel: self),
             WebMessagePort(name: "port2", index: 1, webMessageChannelId: self.id, webMessageChannel: self)
@@ -33,7 +35,7 @@ public class WebMessageChannel: FlutterMethodCallDelegate {
         if let webView = self.webView {
             webView.evaluateJavascript(source: """
             (function() {
-                \(WebMessageChannelJS.WEB_MESSAGE_CHANNELS_VARIABLE_NAME())["\(id)"] = new MessageChannel();
+                \(WEB_MESSAGE_CHANNELS_VARIABLE_NAME)["\(id)"] = new MessageChannel();
             })();
             """) { (_) in
                 completionHandler?(self)
@@ -58,11 +60,11 @@ public class WebMessageChannel: FlutterMethodCallDelegate {
         ports.removeAll()
         webView?.evaluateJavascript(source: """
         (function() {
-            var webMessageChannel = \(WebMessageChannelJS.WEB_MESSAGE_CHANNELS_VARIABLE_NAME())["\(id)"];
+            var webMessageChannel = \(WEB_MESSAGE_CHANNELS_VARIABLE_NAME)["\(id)"];
             if (webMessageChannel != null) {
                 webMessageChannel.port1.close();
                 webMessageChannel.port2.close();
-                delete \(WebMessageChannelJS.WEB_MESSAGE_CHANNELS_VARIABLE_NAME())["\(id)"];
+                delete \(WEB_MESSAGE_CHANNELS_VARIABLE_NAME)["\(id)"];
             }
         })();
         """)

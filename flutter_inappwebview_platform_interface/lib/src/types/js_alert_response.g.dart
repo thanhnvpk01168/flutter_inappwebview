@@ -26,38 +26,22 @@ class JsAlertResponse {
       this.message = ""});
 
   ///Gets a possible [JsAlertResponse] instance from a [Map] value.
-  static JsAlertResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static JsAlertResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = JsAlertResponse();
-    instance.action = switch (enumMethod ?? EnumMethod.nativeValue) {
-      EnumMethod.nativeValue =>
-        JsAlertResponseAction.fromNativeValue(map['action']),
-      EnumMethod.value => JsAlertResponseAction.fromValue(map['action']),
-      EnumMethod.name => JsAlertResponseAction.byName(map['action'])
-    };
-    if (map['confirmButtonTitle'] != null) {
-      instance.confirmButtonTitle = map['confirmButtonTitle'];
-    }
-    if (map['handledByClient'] != null) {
-      instance.handledByClient = map['handledByClient'];
-    }
-    if (map['message'] != null) {
-      instance.message = map['message'];
-    }
+    instance.action = JsAlertResponseAction.fromNativeValue(map['action']);
+    instance.confirmButtonTitle = map['confirmButtonTitle'];
+    instance.handledByClient = map['handledByClient'];
+    instance.message = map['message'];
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "action": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => action?.toNativeValue(),
-        EnumMethod.value => action?.toValue(),
-        EnumMethod.name => action?.name()
-      },
+      "action": action?.toNativeValue(),
       "confirmButtonTitle": confirmButtonTitle,
       "handledByClient": handledByClient,
       "message": message,

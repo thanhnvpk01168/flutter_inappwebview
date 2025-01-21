@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 
-import '../types/enum_method.dart';
 import 'asn1_decoder.dart';
 import 'asn1_der_encoder.dart';
 import 'asn1_object.dart';
@@ -51,7 +50,7 @@ class X509PublicKey {
     return null;
   }
 
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "algOid": algOid,
       "algName": algName,

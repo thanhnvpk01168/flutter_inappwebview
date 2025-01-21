@@ -17,11 +17,11 @@ public class InAppBrowserManager: ChannelDelegate {
     static let WEBVIEW_STORYBOARD_CONTROLLER_ID = "viewController"
     static let NAV_STORYBOARD_CONTROLLER_ID = "navController"
     var plugin: SwiftFlutterPlugin?
-
-    var navControllers: [String: InAppBrowserNavigationController?] = [:]
+    
+    private var previousStatusBarStyle = -1
     
     init(plugin: SwiftFlutterPlugin) {
-        super.init(channel: FlutterMethodChannel(name: InAppBrowserManager.METHOD_CHANNEL_NAME, binaryMessenger: plugin.registrar.messenger()))
+        super.init(channel: FlutterMethodChannel(name: InAppBrowserManager.METHOD_CHANNEL_NAME, binaryMessenger: plugin.registrar!.messenger()))
         self.plugin = plugin
     }
     
@@ -44,6 +44,10 @@ public class InAppBrowserManager: ChannelDelegate {
     }
     
     public func prepareInAppBrowserWebViewController(settings: [String: Any?]) -> InAppBrowserWebViewController {
+        if previousStatusBarStyle == -1 {
+            previousStatusBarStyle = UIApplication.shared.statusBarStyle.rawValue
+        }
+        
         let browserSettings = InAppBrowserSettings()
         let _ = browserSettings.parse(settings: settings)
         
@@ -55,6 +59,7 @@ public class InAppBrowserManager: ChannelDelegate {
         webViewController.browserSettings = browserSettings
         webViewController.isHidden = browserSettings.hidden
         webViewController.webViewSettings = webViewSettings
+        webViewController.previousStatusBarStyle = previousStatusBarStyle
         return webViewController
     }
     
@@ -100,12 +105,17 @@ public class InAppBrowserManager: ChannelDelegate {
         navController.pushViewController(webViewController, animated: false)
         webViewController.prepareNavigationControllerBeforeViewWillAppear()
         
+        var animated = true
+        if let browserSettings = webViewController.browserSettings, browserSettings.hidden {
+            animated = false
+        }
+        
         guard let visibleViewController = UIApplication.shared.visibleViewController else {
             assertionFailure("Failure init the visibleViewController!")
             return
         }
-        
-        if let popover = webViewController.popoverPresentationController {
+
+        if let popover = navController.popoverPresentationController {
             let sourceView = visibleViewController.view ?? UIView()
 
             popover.sourceRect = CGRect(x: sourceView.bounds.midX, y: sourceView.bounds.midY, width: 0, height: 0)
@@ -113,13 +123,7 @@ public class InAppBrowserManager: ChannelDelegate {
             popover.sourceView = sourceView
         }
 
-        if let browserSettings = webViewController.browserSettings, browserSettings.hidden {
-            webViewController.loadViewIfNeeded()
-        } else {
-            visibleViewController.present(navController, animated: true)
-        }
-        
-        navControllers[webViewController.id] = navController
+        visibleViewController.present(navController, animated: animated)
     }
     
     public func openWithSystemBrowser(url: String, result: @escaping FlutterResult) {
@@ -140,11 +144,6 @@ public class InAppBrowserManager: ChannelDelegate {
     
     public override func dispose() {
         super.dispose()
-        let navControllersValues = navControllers.values
-        navControllersValues.forEach { (navController: InAppBrowserNavigationController?) in
-            navController?.dismiss(animated: false)
-        }
-        navControllers.removeAll()
         plugin = nil
     }
     

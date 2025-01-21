@@ -1,7 +1,6 @@
 import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_internal_annotations.dart';
 
 import 'meta_tag.dart';
-import 'enum_method.dart';
 
 part 'meta_tag_attribute.g.dart';
 

@@ -101,18 +101,13 @@ abstract class PlatformTracingController extends PlatformInterface {
   }
 }
 
-List<dynamic> _deserializeCategories(List<dynamic> categories,
-    {EnumMethod? enumMethod}) {
+List<dynamic> _deserializeCategories(List<dynamic> categories) {
   List<dynamic> deserializedCategories = [];
   for (dynamic category in categories) {
     if (category is String) {
       deserializedCategories.add(category);
     } else if (category is int) {
-      final mode = switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => TracingCategory.fromNativeValue(category),
-        EnumMethod.value => TracingCategory.fromValue(category),
-        EnumMethod.name => null,
-      };
+      final mode = TracingCategory.fromNativeValue(category);
       if (mode != null) {
         deserializedCategories.add(mode);
       }
@@ -121,18 +116,13 @@ List<dynamic> _deserializeCategories(List<dynamic> categories,
   return deserializedCategories;
 }
 
-List<dynamic> _serializeCategories(List<dynamic> categories,
-    {EnumMethod? enumMethod}) {
+List<dynamic> _serializeCategories(List<dynamic> categories) {
   List<dynamic> serializedCategories = [];
   for (dynamic category in categories) {
     if (category is String) {
       serializedCategories.add(category);
     } else if (category is TracingCategory) {
-      serializedCategories.add(switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => category.toNativeValue(),
-        EnumMethod.value => category.toValue(),
-        EnumMethod.name => null
-      });
+      serializedCategories.add(category.toNativeValue());
     }
   }
   return serializedCategories;

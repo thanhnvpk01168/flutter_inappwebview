@@ -42,8 +42,7 @@ class WebResourceResponse {
       this.statusCode});
 
   ///Gets a possible [WebResourceResponse] instance from a [Map] value.
-  static WebResourceResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static WebResourceResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -61,7 +60,7 @@ class WebResourceResponse {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "contentEncoding": contentEncoding,
       "contentType": contentType,

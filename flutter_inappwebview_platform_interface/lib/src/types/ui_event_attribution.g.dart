@@ -35,8 +35,7 @@ class UIEventAttribution {
       required this.purchaser});
 
   ///Gets a possible [UIEventAttribution] instance from a [Map] value.
-  static UIEventAttribution? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static UIEventAttribution? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -50,7 +49,7 @@ class UIEventAttribution {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "destinationURL": destinationURL.toString(),
       "purchaser": purchaser,

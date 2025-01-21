@@ -12,7 +12,7 @@ class AndroidPrintJobControllerCreationParams
     extends PlatformPrintJobControllerCreationParams {
   /// Creates a new [AndroidPrintJobControllerCreationParams] instance.
   const AndroidPrintJobControllerCreationParams(
-      {required super.id});
+      {required super.id, super.onComplete});
 
   /// Creates a [AndroidPrintJobControllerCreationParams] instance based on [PlatformPrintJobControllerCreationParams].
   factory AndroidPrintJobControllerCreationParams.fromPlatformPrintJobControllerCreationParams(
@@ -20,7 +20,7 @@ class AndroidPrintJobControllerCreationParams
       // ignore: avoid_unused_constructor_parameters
       PlatformPrintJobControllerCreationParams params) {
     return AndroidPrintJobControllerCreationParams(
-        id: params.id);
+        id: params.id, onComplete: params.onComplete);
   }
 }
 
@@ -43,11 +43,6 @@ class AndroidPrintJobController extends PlatformPrintJobController
 
   Future<dynamic> _handleMethod(MethodCall call) async {
     switch (call.method) {
-      case "onComplete":
-        bool completed = call.arguments["completed"];
-        String? error = call.arguments["error"];
-        onComplete?.call(completed, error);
-        break;
       default:
         throw UnimplementedError("Unimplemented ${call.method} method");
     }

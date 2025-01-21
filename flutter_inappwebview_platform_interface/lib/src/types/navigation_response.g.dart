@@ -22,26 +22,24 @@ class NavigationResponse {
       this.response});
 
   ///Gets a possible [NavigationResponse] instance from a [Map] value.
-  static NavigationResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static NavigationResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = NavigationResponse(
       canShowMIMEType: map['canShowMIMEType'],
       isForMainFrame: map['isForMainFrame'],
-      response: URLResponse.fromMap(map['response']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
+      response: URLResponse.fromMap(map['response']?.cast<String, dynamic>()),
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "canShowMIMEType": canShowMIMEType,
       "isForMainFrame": isForMainFrame,
-      "response": response?.toMap(enumMethod: enumMethod),
+      "response": response?.toMap(),
     };
   }
 
@@ -74,26 +72,25 @@ class IOSWKNavigationResponse {
       this.response});
 
   ///Gets a possible [IOSWKNavigationResponse] instance from a [Map] value.
-  static IOSWKNavigationResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static IOSWKNavigationResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = IOSWKNavigationResponse(
       canShowMIMEType: map['canShowMIMEType'],
       isForMainFrame: map['isForMainFrame'],
-      response: IOSURLResponse.fromMap(map['response']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
+      response:
+          IOSURLResponse.fromMap(map['response']?.cast<String, dynamic>()),
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "canShowMIMEType": canShowMIMEType,
       "isForMainFrame": isForMainFrame,
-      "response": response?.toMap(enumMethod: enumMethod),
+      "response": response?.toMap(),
     };
   }
 

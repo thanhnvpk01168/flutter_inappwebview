@@ -4,7 +4,6 @@ import '../in_app_webview/platform_webview.dart';
 import '../types/in_app_webview_hit_test_result.dart';
 import 'context_menu_item.dart';
 import 'context_menu_settings.dart';
-import '../types/enum_method.dart';
 
 part 'context_menu.g.dart';
 
@@ -34,7 +33,7 @@ class ContextMenu_ {
 
   ///Use [settings] instead
   @Deprecated("Use settings instead")
-  final ContextMenuOptions_? options;
+  final ContextMenuOptions? options;
 
   ///Context menu settings.
   final ContextMenuSettings_? settings;
@@ -53,11 +52,10 @@ class ContextMenu_ {
 
   @ExchangeableObjectMethod(toMapMergeWith: true)
   // ignore: unused_element
-  Map<String, dynamic> _toMapMergeWith({EnumMethod? enumMethod}) {
+  Map<String, dynamic> _toMapMergeWith() {
     return {
       "settings":
-          (settings as ContextMenuSettings?)?.toMap(enumMethod: enumMethod) ??
-              (options as ContextMenuOptions?)?.toMap(enumMethod: enumMethod)
+          (settings as ContextMenuSettings?)?.toMap() ?? options?.toMap()
     };
   }
 }

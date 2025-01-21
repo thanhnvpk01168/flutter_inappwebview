@@ -35,7 +35,7 @@ class Printer {
   Printer({this.id, this.languageLevel, this.name, this.type});
 
   ///Gets a possible [Printer] instance from a [Map] value.
-  static Printer? fromMap(Map<String, dynamic>? map, {EnumMethod? enumMethod}) {
+  static Printer? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -49,7 +49,7 @@ class Printer {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "id": id,
       "languageLevel": languageLevel,

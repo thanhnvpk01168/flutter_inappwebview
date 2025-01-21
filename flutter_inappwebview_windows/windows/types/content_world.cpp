@@ -12,7 +12,7 @@ namespace flutter_inappwebview_plugin
   {}
 
   ContentWorld::ContentWorld(const flutter::EncodableMap& map)
-    : ContentWorld(get_fl_map_value<std::string>(map, "name"))
+    : name(get_fl_map_value<std::string>(map, "name"))
   {}
 
   bool ContentWorld::isSame(const ContentWorld& contentWorld) const

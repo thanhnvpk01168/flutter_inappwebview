@@ -42,8 +42,7 @@ class ContextMenuItem {
   }
 
   ///Gets a possible [ContextMenuItem] instance from a [Map] value.
-  static ContextMenuItem? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ContextMenuItem? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -57,16 +56,16 @@ class ContextMenuItem {
   }
 
   @ExchangeableObjectMethod(toMapMergeWith: true)
-  Map<String, dynamic> _toMapMergeWith({EnumMethod? enumMethod}) {
+  Map<String, dynamic> _toMapMergeWith() {
     return {"androidId": androidId, "iosId": iosId};
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "id": id,
       "title": title,
-      ..._toMapMergeWith(enumMethod: enumMethod),
+      ..._toMapMergeWith(),
     };
   }
 

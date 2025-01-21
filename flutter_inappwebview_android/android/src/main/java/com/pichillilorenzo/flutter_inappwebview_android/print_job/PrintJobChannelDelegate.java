@@ -9,9 +9,6 @@ import androidx.annotation.RequiresApi;
 import com.pichillilorenzo.flutter_inappwebview_android.types.ChannelDelegateImpl;
 import com.pichillilorenzo.flutter_inappwebview_android.types.PrintJobInfoExt;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 
@@ -63,15 +60,6 @@ public class PrintJobChannelDelegate extends ChannelDelegateImpl {
       default:
         result.notImplemented();
     }
-  }
-
-  public void onComplete(boolean completed, @Nullable String error) {
-    MethodChannel channel = getChannel();
-    if (channel == null) return;
-    Map<String, Object> obj = new HashMap<>();
-    obj.put("completed", completed);
-    obj.put("error", error);
-    channel.invokeMethod("onComplete", obj);
   }
 
   @Override

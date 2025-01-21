@@ -65,54 +65,11 @@ class MixedContentMode {
     return null;
   }
 
-  /// Gets a possible [MixedContentMode] instance value with name [name].
-  ///
-  /// Goes through [MixedContentMode.values] looking for a value with
-  /// name [name], as reported by [MixedContentMode.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static MixedContentMode? byName(String? name) {
-    if (name != null) {
-      try {
-        return MixedContentMode.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [MixedContentMode] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, MixedContentMode> asNameMap() =>
-      <String, MixedContentMode>{
-        for (final value in MixedContentMode.values) value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 0:
-        return 'MIXED_CONTENT_ALWAYS_ALLOW';
-      case 2:
-        return 'MIXED_CONTENT_COMPATIBILITY_MODE';
-      case 1:
-        return 'MIXED_CONTENT_NEVER_ALLOW';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -122,7 +79,15 @@ class MixedContentMode {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 0:
+        return 'MIXED_CONTENT_ALWAYS_ALLOW';
+      case 2:
+        return 'MIXED_CONTENT_COMPATIBILITY_MODE';
+      case 1:
+        return 'MIXED_CONTENT_NEVER_ALLOW';
+    }
+    return _value.toString();
   }
 }
 
@@ -192,54 +157,11 @@ class AndroidMixedContentMode {
     return null;
   }
 
-  /// Gets a possible [AndroidMixedContentMode] instance value with name [name].
-  ///
-  /// Goes through [AndroidMixedContentMode.values] looking for a value with
-  /// name [name], as reported by [AndroidMixedContentMode.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static AndroidMixedContentMode? byName(String? name) {
-    if (name != null) {
-      try {
-        return AndroidMixedContentMode.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [AndroidMixedContentMode] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, AndroidMixedContentMode> asNameMap() =>
-      <String, AndroidMixedContentMode>{
-        for (final value in AndroidMixedContentMode.values) value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 0:
-        return 'MIXED_CONTENT_ALWAYS_ALLOW';
-      case 2:
-        return 'MIXED_CONTENT_COMPATIBILITY_MODE';
-      case 1:
-        return 'MIXED_CONTENT_NEVER_ALLOW';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -249,6 +171,14 @@ class AndroidMixedContentMode {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 0:
+        return 'MIXED_CONTENT_ALWAYS_ALLOW';
+      case 2:
+        return 'MIXED_CONTENT_COMPATIBILITY_MODE';
+      case 1:
+        return 'MIXED_CONTENT_NEVER_ALLOW';
+    }
+    return _value.toString();
   }
 }

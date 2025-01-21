@@ -44,25 +44,23 @@ class ChromeSafariBrowserMenuItem {
       this.onClick});
 
   ///Gets a possible [ChromeSafariBrowserMenuItem] instance from a [Map] value.
-  static ChromeSafariBrowserMenuItem? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ChromeSafariBrowserMenuItem? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ChromeSafariBrowserMenuItem(
       id: map['id'],
-      image: UIImage.fromMap(map['image']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
+      image: UIImage.fromMap(map['image']?.cast<String, dynamic>()),
       label: map['label'],
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "id": id,
-      "image": image?.toMap(enumMethod: enumMethod),
+      "image": image?.toMap(),
       "label": label,
     };
   }

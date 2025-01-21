@@ -1,7 +1,5 @@
 import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_internal_annotations.dart';
 
-import 'enum_method.dart';
-
 part 'in_app_webview_rect.g.dart';
 
 ///A class that represents a structure that contains the location and dimensions of a rectangle.

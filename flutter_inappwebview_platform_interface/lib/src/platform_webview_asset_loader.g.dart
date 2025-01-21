@@ -38,8 +38,7 @@ class WebViewAssetLoader {
   WebViewAssetLoader({this.domain, this.httpAllowed, this.pathHandlers});
 
   ///Gets a possible [WebViewAssetLoader] instance from a [Map] value.
-  static WebViewAssetLoader? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static WebViewAssetLoader? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -54,12 +53,11 @@ class WebViewAssetLoader {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "domain": domain,
       "httpAllowed": httpAllowed,
-      "pathHandlers":
-          pathHandlers?.map((e) => e.toMap(enumMethod: enumMethod)).toList(),
+      "pathHandlers": pathHandlers?.map((e) => e.toMap()).toList(),
     };
   }
 

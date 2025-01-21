@@ -37,8 +37,7 @@ class JsPromptRequest {
   }
 
   ///Gets a possible [JsPromptRequest] instance from a [Map] value.
-  static JsPromptRequest? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static JsPromptRequest? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -53,7 +52,7 @@ class JsPromptRequest {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "defaultValue": defaultValue,
       "isMainFrame": isMainFrame,

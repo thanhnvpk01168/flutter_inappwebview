@@ -58,52 +58,11 @@ class ForceDark {
     return null;
   }
 
-  /// Gets a possible [ForceDark] instance value with name [name].
-  ///
-  /// Goes through [ForceDark.values] looking for a value with
-  /// name [name], as reported by [ForceDark.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static ForceDark? byName(String? name) {
-    if (name != null) {
-      try {
-        return ForceDark.values.firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [ForceDark] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, ForceDark> asNameMap() => <String, ForceDark>{
-        for (final value in ForceDark.values) value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 1:
-        return 'AUTO';
-      case 0:
-        return 'OFF';
-      case 2:
-        return 'ON';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -113,7 +72,15 @@ class ForceDark {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 1:
+        return 'AUTO';
+      case 0:
+        return 'OFF';
+      case 2:
+        return 'ON';
+    }
+    return _value.toString();
   }
 }
 
@@ -175,54 +142,11 @@ class AndroidForceDark {
     return null;
   }
 
-  /// Gets a possible [AndroidForceDark] instance value with name [name].
-  ///
-  /// Goes through [AndroidForceDark.values] looking for a value with
-  /// name [name], as reported by [AndroidForceDark.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static AndroidForceDark? byName(String? name) {
-    if (name != null) {
-      try {
-        return AndroidForceDark.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [AndroidForceDark] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, AndroidForceDark> asNameMap() =>
-      <String, AndroidForceDark>{
-        for (final value in AndroidForceDark.values) value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 1:
-        return 'FORCE_DARK_AUTO';
-      case 0:
-        return 'FORCE_DARK_OFF';
-      case 2:
-        return 'FORCE_DARK_ON';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -232,6 +156,14 @@ class AndroidForceDark {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 1:
+        return 'FORCE_DARK_AUTO';
+      case 0:
+        return 'FORCE_DARK_OFF';
+      case 2:
+        return 'FORCE_DARK_ON';
+    }
+    return _value.toString();
   }
 }

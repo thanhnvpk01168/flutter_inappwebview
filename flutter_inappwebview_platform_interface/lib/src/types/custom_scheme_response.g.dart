@@ -23,8 +23,7 @@ class CustomSchemeResponse {
       required this.data});
 
   ///Gets a possible [CustomSchemeResponse] instance from a [Map] value.
-  static CustomSchemeResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static CustomSchemeResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -32,14 +31,12 @@ class CustomSchemeResponse {
       contentType: map['contentType'],
       data: Uint8List.fromList(map['data'].cast<int>()),
     );
-    if (map['contentEncoding'] != null) {
-      instance.contentEncoding = map['contentEncoding'];
-    }
+    instance.contentEncoding = map['contentEncoding'];
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "contentEncoding": contentEncoding,
       "contentType": contentType,

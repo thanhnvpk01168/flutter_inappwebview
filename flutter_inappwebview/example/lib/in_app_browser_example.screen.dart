@@ -22,20 +22,20 @@ class MyInAppBrowser extends InAppBrowser {
         );
 
   @override
-  void onBrowserCreated() {
+  Future onBrowserCreated() async {
     print("\n\nBrowser Created!\n\n");
   }
 
   @override
-  void onLoadStart(url) {}
+  Future onLoadStart(url) async {}
 
   @override
-  void onLoadStop(url) {
+  Future onLoadStop(url) async {
     pullToRefreshController?.endRefreshing();
   }
 
   @override
-  FutureOr<PermissionResponse> onPermissionRequest(request) {
+  Future<PermissionResponse> onPermissionRequest(request) async {
     return PermissionResponse(
         resources: request.resources, action: PermissionResponseAction.GRANT);
   }
@@ -58,8 +58,8 @@ class MyInAppBrowser extends InAppBrowser {
   }
 
   @override
-  FutureOr<NavigationActionPolicy> shouldOverrideUrlLoading(
-      navigationAction) {
+  Future<NavigationActionPolicy> shouldOverrideUrlLoading(
+      navigationAction) async {
     print("\n\nOverride ${navigationAction.request.url}\n\n");
     return NavigationActionPolicy.ALLOW;
   }

@@ -61,55 +61,11 @@ class VerticalScrollbarPosition {
     return null;
   }
 
-  /// Gets a possible [VerticalScrollbarPosition] instance value with name [name].
-  ///
-  /// Goes through [VerticalScrollbarPosition.values] looking for a value with
-  /// name [name], as reported by [VerticalScrollbarPosition.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static VerticalScrollbarPosition? byName(String? name) {
-    if (name != null) {
-      try {
-        return VerticalScrollbarPosition.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [VerticalScrollbarPosition] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, VerticalScrollbarPosition> asNameMap() =>
-      <String, VerticalScrollbarPosition>{
-        for (final value in VerticalScrollbarPosition.values)
-          value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 0:
-        return 'SCROLLBAR_POSITION_DEFAULT';
-      case 1:
-        return 'SCROLLBAR_POSITION_LEFT';
-      case 2:
-        return 'SCROLLBAR_POSITION_RIGHT';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -119,7 +75,15 @@ class VerticalScrollbarPosition {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 0:
+        return 'SCROLLBAR_POSITION_DEFAULT';
+      case 1:
+        return 'SCROLLBAR_POSITION_LEFT';
+      case 2:
+        return 'SCROLLBAR_POSITION_RIGHT';
+    }
+    return _value.toString();
   }
 }
 
@@ -181,55 +145,11 @@ class AndroidVerticalScrollbarPosition {
     return null;
   }
 
-  /// Gets a possible [AndroidVerticalScrollbarPosition] instance value with name [name].
-  ///
-  /// Goes through [AndroidVerticalScrollbarPosition.values] looking for a value with
-  /// name [name], as reported by [AndroidVerticalScrollbarPosition.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static AndroidVerticalScrollbarPosition? byName(String? name) {
-    if (name != null) {
-      try {
-        return AndroidVerticalScrollbarPosition.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [AndroidVerticalScrollbarPosition] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, AndroidVerticalScrollbarPosition> asNameMap() =>
-      <String, AndroidVerticalScrollbarPosition>{
-        for (final value in AndroidVerticalScrollbarPosition.values)
-          value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 0:
-        return 'SCROLLBAR_POSITION_DEFAULT';
-      case 1:
-        return 'SCROLLBAR_POSITION_LEFT';
-      case 2:
-        return 'SCROLLBAR_POSITION_RIGHT';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -239,6 +159,14 @@ class AndroidVerticalScrollbarPosition {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 0:
+        return 'SCROLLBAR_POSITION_DEFAULT';
+      case 1:
+        return 'SCROLLBAR_POSITION_LEFT';
+      case 2:
+        return 'SCROLLBAR_POSITION_RIGHT';
+    }
+    return _value.toString();
   }
 }

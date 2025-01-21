@@ -2,7 +2,6 @@ import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_i
 
 import 'url_authentication_challenge.dart';
 import 'url_protection_space.dart';
-import 'enum_method.dart';
 
 part 'server_trust_challenge.g.dart';
 

@@ -38,8 +38,7 @@ class WebHistoryItem {
       this.url});
 
   ///Gets a possible [WebHistoryItem] instance from a [Map] value.
-  static WebHistoryItem? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static WebHistoryItem? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -56,7 +55,7 @@ class WebHistoryItem {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "entryId": entryId,
       "index": index,

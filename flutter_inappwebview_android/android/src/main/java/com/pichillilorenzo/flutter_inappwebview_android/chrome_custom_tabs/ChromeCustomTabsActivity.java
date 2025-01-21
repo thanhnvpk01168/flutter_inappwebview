@@ -78,23 +78,13 @@ public class ChromeCustomTabsActivity extends Activity implements Disposable {
     setContentView(R.layout.chrome_custom_tabs_layout);
 
     Bundle b = getIntent().getExtras();
-    if (b == null) {
-      if (savedInstanceState != null) {
-        close();
-      }
-      return;
-    }
+    if (b == null) return;
 
     id = b.getString("id");
 
     String managerId = b.getString("managerId");
     manager = ChromeSafariBrowserManager.shared.get(managerId);
-    if (manager == null || manager.plugin == null || manager.plugin.messenger == null) {
-      if (savedInstanceState != null) {
-        close();
-      }
-      return;
-    }
+    if (manager == null || manager.plugin == null || manager.plugin.messenger == null) return;
 
     manager.browsers.put(id, this);
 

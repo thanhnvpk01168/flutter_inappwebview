@@ -19,15 +19,14 @@ class MetaTag {
   MetaTag({this.attrs, this.content, this.name});
 
   ///Gets a possible [MetaTag] instance from a [Map] value.
-  static MetaTag? fromMap(Map<String, dynamic>? map, {EnumMethod? enumMethod}) {
+  static MetaTag? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = MetaTag(
       attrs: map['attrs'] != null
-          ? List<MetaTagAttribute>.from(map['attrs'].map((e) =>
-              MetaTagAttribute.fromMap(e?.cast<String, dynamic>(),
-                  enumMethod: enumMethod)!))
+          ? List<MetaTagAttribute>.from(map['attrs'].map(
+              (e) => MetaTagAttribute.fromMap(e?.cast<String, dynamic>())!))
           : null,
       content: map['content'],
       name: map['name'],
@@ -36,9 +35,9 @@ class MetaTag {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "attrs": attrs?.map((e) => e.toMap(enumMethod: enumMethod)).toList(),
+      "attrs": attrs?.map((e) => e.toMap()).toList(),
       "content": content,
       "name": name,
     };

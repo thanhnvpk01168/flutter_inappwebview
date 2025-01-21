@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_inappwebview_platform_interface/flutter_inappwebview_platform_interface.dart';
@@ -17,7 +16,6 @@ class PlatformInAppLocalhostServerCreationParams {
     this.directoryIndex = 'index.html',
     this.documentRoot = './',
     this.shared = false,
-    this.onData = null,
   });
 
   ///{@macro flutter_inappwebview_platform_interface.PlatformInAppLocalhostServer.port}
@@ -31,9 +29,6 @@ class PlatformInAppLocalhostServerCreationParams {
 
   ///{@macro flutter_inappwebview_platform_interface.PlatformInAppLocalhostServer.shared}
   final bool shared;
-
-  ///{@macro flutter_inappwebview_platform_interface.PlatformInAppLocalhostServer.onData}
-  final Future<bool> Function(HttpRequest request)? onData;
 }
 
 ///{@template flutter_inappwebview_platform_interface.PlatformInAppLocalhostServer}
@@ -45,7 +40,6 @@ class PlatformInAppLocalhostServerCreationParams {
 ///- Android native WebView
 ///- iOS
 ///- MacOS
-///- Windows
 ///{@endtemplate}
 abstract class PlatformInAppLocalhostServer extends PlatformInterface {
   /// Creates a new [PlatformInAppLocalhostServer]
@@ -103,14 +97,6 @@ abstract class PlatformInAppLocalhostServer extends PlatformInterface {
   /// distributed over multiple isolates this way.
   ///{@endtemplate}
   bool get shared => params.shared;
-
-  ///{@template flutter_inappwebview_platform_interface.PlatformInAppLocalhostServer.onData}
-  ///A custom callback that is called when a new request is received by the server
-  ///that can be used to send or modify the response, for example adding custom headers.
-  ///If this callback returns `true`, it means that the request has been handled by this callback.
-  ///Otherwise, if this callback returns `false`, the server will continue to process the request using the default implementation.
-  ///{@endtemplate}
-  Future<bool> Function(HttpRequest request)? get onData => params.onData;
 
   ///{@template flutter_inappwebview_platform_interface.PlatformInAppLocalhostServer.start}
   ///Starts the server on `http://localhost:[port]/`.

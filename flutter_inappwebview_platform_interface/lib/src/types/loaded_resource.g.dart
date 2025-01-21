@@ -23,8 +23,7 @@ class LoadedResource {
   LoadedResource({this.duration, this.initiatorType, this.startTime, this.url});
 
   ///Gets a possible [LoadedResource] instance from a [Map] value.
-  static LoadedResource? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static LoadedResource? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -38,7 +37,7 @@ class LoadedResource {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "duration": duration,
       "initiatorType": initiatorType,

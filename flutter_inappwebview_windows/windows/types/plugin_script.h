@@ -13,8 +13,7 @@ namespace flutter_inappwebview_plugin
       const std::optional<std::string>& groupName,
       const std::string& source,
       const UserScriptInjectionTime& injectionTime,
-      const bool& forMainFrameOnly,
-      const std::optional<std::vector<std::string>>& allowedOriginRules,
+      const std::vector<std::string>& allowedOriginRules,
       std::shared_ptr<ContentWorld> contentWorld,
       const bool& requiredInAllContentWorlds
     );

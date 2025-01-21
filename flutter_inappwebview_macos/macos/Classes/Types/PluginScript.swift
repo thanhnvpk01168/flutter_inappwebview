@@ -16,8 +16,8 @@ public class PluginScript: UserScript {
         super.init(source: source, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly)
     }
     
-    public init(groupName: String, source: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool, allowedOriginRules: [String]?, requiredInAllContentWorlds: Bool = false, messageHandlerNames: [String] = []) {
-        super.init(groupName: groupName, source: source, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly, allowedOriginRules: allowedOriginRules)
+    public init(groupName: String, source: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool, requiredInAllContentWorlds: Bool = false, messageHandlerNames: [String] = []) {
+        super.init(groupName: groupName, source: source, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly)
         self.requiredInAllContentWorlds = requiredInAllContentWorlds
         self.messageHandlerNames = messageHandlerNames
     }
@@ -36,9 +36,8 @@ public class PluginScript: UserScript {
     }
 
     @available(macOS 11.0, *)
-    public init(groupName: String, source: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool, in contentWorld: WKContentWorld,
-                allowedOriginRules: [String]?, requiredInAllContentWorlds: Bool = false, messageHandlerNames: [String] = []) {
-        super.init(groupName: groupName, source: source, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly, in: contentWorld, allowedOriginRules: allowedOriginRules)
+    public init(groupName: String, source: String, injectionTime: WKUserScriptInjectionTime, forMainFrameOnly: Bool, in contentWorld: WKContentWorld, requiredInAllContentWorlds: Bool = false, messageHandlerNames: [String] = []) {
+        super.init(groupName: groupName, source: source, injectionTime: injectionTime, forMainFrameOnly: forMainFrameOnly, in: contentWorld)
         self.requiredInAllContentWorlds = requiredInAllContentWorlds
         self.messageHandlerNames = messageHandlerNames
     }
@@ -48,7 +47,6 @@ public class PluginScript: UserScript {
                            injectionTime: WKUserScriptInjectionTime? = nil,
                            forMainFrameOnly: Bool? = nil,
                            requiredInAllContentWorlds: Bool? = nil,
-                           allowedOriginRules: [String]? = nil,
                            messageHandlerNames: [String]? = nil) -> PluginScript {
         if #available(macOS 11.0, *) {
             return PluginScript(
@@ -57,7 +55,6 @@ public class PluginScript: UserScript {
                 injectionTime: injectionTime ?? self.injectionTime,
                 forMainFrameOnly: forMainFrameOnly ?? self.isForMainFrameOnly,
                 in: self.contentWorld,
-                allowedOriginRules: allowedOriginRules ?? self.allowedOriginRules,
                 requiredInAllContentWorlds: requiredInAllContentWorlds ?? self.requiredInAllContentWorlds,
                 messageHandlerNames: messageHandlerNames ?? self.messageHandlerNames
             )
@@ -67,7 +64,6 @@ public class PluginScript: UserScript {
             source: source ?? self.source,
             injectionTime: injectionTime ?? self.injectionTime,
             forMainFrameOnly: forMainFrameOnly ?? self.isForMainFrameOnly,
-            allowedOriginRules: allowedOriginRules ?? self.allowedOriginRules,
             requiredInAllContentWorlds: requiredInAllContentWorlds ?? self.requiredInAllContentWorlds,
             messageHandlerNames: messageHandlerNames ?? self.messageHandlerNames
         )
@@ -79,7 +75,6 @@ public class PluginScript: UserScript {
                            injectionTime: WKUserScriptInjectionTime? = nil,
                            forMainFrameOnly: Bool? = nil,
                            contentWorld: WKContentWorld? = nil,
-                           allowedOriginRules: [String]? = nil,
                            requiredInAllContentWorlds: Bool? = nil,
                            messageHandlerNames: [String]? = nil) -> PluginScript {
         return PluginScript(
@@ -88,7 +83,6 @@ public class PluginScript: UserScript {
             injectionTime: injectionTime ?? self.injectionTime,
             forMainFrameOnly: forMainFrameOnly ?? self.isForMainFrameOnly,
             in: contentWorld ?? self.contentWorld,
-            allowedOriginRules: allowedOriginRules ?? self.allowedOriginRules,
             requiredInAllContentWorlds: requiredInAllContentWorlds ?? self.requiredInAllContentWorlds,
             messageHandlerNames: messageHandlerNames ?? self.messageHandlerNames
         )
@@ -101,7 +95,6 @@ public class PluginScript: UserScript {
                 lhs.injectionTime == rhs.injectionTime &&
                 lhs.isForMainFrameOnly == rhs.isForMainFrameOnly &&
                 lhs.contentWorld == rhs.contentWorld &&
-                lhs.allowedOriginRules == rhs.allowedOriginRules &&
                 lhs.requiredInAllContentWorlds == rhs.requiredInAllContentWorlds &&
                 lhs.messageHandlerNames == rhs.messageHandlerNames
         } else {
@@ -109,7 +102,6 @@ public class PluginScript: UserScript {
                 lhs.source == rhs.source &&
                 lhs.injectionTime == rhs.injectionTime &&
                 lhs.isForMainFrameOnly == rhs.isForMainFrameOnly &&
-                lhs.allowedOriginRules == rhs.allowedOriginRules &&
                 lhs.requiredInAllContentWorlds == rhs.requiredInAllContentWorlds &&
                 lhs.messageHandlerNames == rhs.messageHandlerNames
         }

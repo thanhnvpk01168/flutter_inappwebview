@@ -282,15 +282,14 @@ namespace flutter_inappwebview_plugin
     if (method_name.compare(kMethodSetPointerButton) == 0) {
       const auto& map = std::get<flutter::EncodableMap>(*method_call.arguments());
 
-      const auto kind = map.find(flutter::EncodableValue("kind"));
       const auto button = map.find(flutter::EncodableValue("button"));
-      if (kind != map.end() && button != map.end()) {
-        const auto kindValue = std::get_if<int32_t>(&kind->second);
+      const auto isDown = map.find(flutter::EncodableValue("isDown"));
+      if (button != map.end() && isDown != map.end()) {
         const auto buttonValue = std::get_if<int32_t>(&button->second);
-        if (kindValue && buttonValue && view) {
+        const auto isDownValue = std::get_if<bool>(&isDown->second);
+        if (buttonValue && isDownValue && view) {
           view->setPointerButtonState(
-            static_cast<InAppWebViewPointerEventKind>(*kindValue),
-            static_cast<InAppWebViewPointerButton>(*buttonValue));
+            static_cast<flutter_inappwebview_plugin::InAppWebViewPointerButton>(*buttonValue), *isDownValue);
           return result->Success();
         }
       }

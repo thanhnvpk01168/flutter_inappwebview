@@ -11,7 +11,7 @@ namespace flutter_inappwebview_plugin
 {
   class InAppBrowser;
 
-  enum class InAppBrowserWindowType {
+  enum InAppBrowserWindowType {
     window,
     child
   };
@@ -20,7 +20,7 @@ namespace flutter_inappwebview_plugin
   {
   public:
     bool hidden = false;
-    InAppBrowserWindowType windowType = InAppBrowserWindowType::window;
+    InAppBrowserWindowType windowType = window;
     std::string toolbarTopFixedTitle;
     double windowAlphaValue = 1.0;
     std::shared_ptr<Rect> windowFrame;

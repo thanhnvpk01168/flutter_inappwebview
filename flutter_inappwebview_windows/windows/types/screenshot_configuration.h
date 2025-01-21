@@ -10,7 +10,7 @@
 
 namespace flutter_inappwebview_plugin
 {
-  enum class CompressFormat {
+  enum CompressFormat {
     png,
     jpeg,
     webp

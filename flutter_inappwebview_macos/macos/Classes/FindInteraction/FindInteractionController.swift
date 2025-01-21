@@ -24,9 +24,11 @@ public class FindInteractionController: NSObject, Disposable {
         self.plugin = plugin
         self.webView = webView
         self.settings = settings
-        let channel = FlutterMethodChannel(name: FindInteractionController.METHOD_CHANNEL_NAME_PREFIX + String(describing: id),
-                                           binaryMessenger: plugin.registrar.messenger)
-        self.channelDelegate = FindInteractionChannelDelegate(findInteractionController: self, channel: channel)
+        if let registrar = plugin.registrar {
+            let channel = FlutterMethodChannel(name: FindInteractionController.METHOD_CHANNEL_NAME_PREFIX + String(describing: id),
+                                               binaryMessenger: registrar.messenger)
+            self.channelDelegate = FindInteractionChannelDelegate(findInteractionController: self, channel: channel)
+        }
     }
     
     public func prepare() {
@@ -59,7 +61,7 @@ public class FindInteractionController: NSObject, Disposable {
         }
         
         if find != "" {
-            let startSearch = "window.\(JavaScriptBridgeJS.get_JAVASCRIPT_BRIDGE_NAME())._findAllAsync('\(find)');"
+            let startSearch = "window.\(JAVASCRIPT_BRIDGE_NAME)._findAllAsync('\(find)');"
             webView.evaluateJavaScript(startSearch, completionHandler: completionHandler)
         }
     }
@@ -71,7 +73,7 @@ public class FindInteractionController: NSObject, Disposable {
             }
             return
         }
-        webView.evaluateJavaScript("window.\(JavaScriptBridgeJS.get_JAVASCRIPT_BRIDGE_NAME())._findNext(\(forward ? "true" : "false"));", completionHandler: completionHandler)
+        webView.evaluateJavaScript("window.\(JAVASCRIPT_BRIDGE_NAME)._findNext(\(forward ? "true" : "false"));", completionHandler: completionHandler)
     }
 
     public func clearMatches(completionHandler: ((Any?, Error?) -> Void)?) {
@@ -81,7 +83,7 @@ public class FindInteractionController: NSObject, Disposable {
             }
             return
         }
-        webView.evaluateJavaScript("window.\(JavaScriptBridgeJS.get_JAVASCRIPT_BRIDGE_NAME())._clearMatches();", completionHandler: completionHandler)
+        webView.evaluateJavaScript("window.\(JAVASCRIPT_BRIDGE_NAME)._clearMatches();", completionHandler: completionHandler)
     }
     
     public func dispose() {

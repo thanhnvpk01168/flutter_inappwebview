@@ -60,9 +60,7 @@ void webArchive() {
               controllerCompleter.complete(controller);
             },
             onLoadStop: (controller, url) {
-              if (!pageLoaded.isCompleted) {
-                pageLoaded.complete();
-              }
+              pageLoaded.complete();
             },
           ),
         ),

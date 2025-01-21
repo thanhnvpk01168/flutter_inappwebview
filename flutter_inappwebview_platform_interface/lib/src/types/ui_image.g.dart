@@ -32,7 +32,7 @@ class UIImage {
   }
 
   ///Gets a possible [UIImage] instance from a [Map] value.
-  static UIImage? fromMap(Map<String, dynamic>? map, {EnumMethod? enumMethod}) {
+  static UIImage? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -47,7 +47,7 @@ class UIImage {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "data": data,
       "name": name,

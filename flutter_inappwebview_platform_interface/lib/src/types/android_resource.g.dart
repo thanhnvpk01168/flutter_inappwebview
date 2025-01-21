@@ -36,8 +36,7 @@ class AndroidResource {
   AndroidResource({this.defPackage, this.defType, required this.name});
 
   ///Gets a possible [AndroidResource] instance from a [Map] value.
-  static AndroidResource? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static AndroidResource? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -68,7 +67,7 @@ class AndroidResource {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "defPackage": defPackage,
       "defType": defType,

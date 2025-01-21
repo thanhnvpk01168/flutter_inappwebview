@@ -16,8 +16,7 @@ class MetaTagAttribute {
   MetaTagAttribute({this.name, this.value});
 
   ///Gets a possible [MetaTagAttribute] instance from a [Map] value.
-  static MetaTagAttribute? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static MetaTagAttribute? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -29,7 +28,7 @@ class MetaTagAttribute {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "name": name,
       "value": value,

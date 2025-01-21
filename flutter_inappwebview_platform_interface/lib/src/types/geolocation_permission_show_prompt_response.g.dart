@@ -22,8 +22,7 @@ class GeolocationPermissionShowPromptResponse {
 
   ///Gets a possible [GeolocationPermissionShowPromptResponse] instance from a [Map] value.
   static GeolocationPermissionShowPromptResponse? fromMap(
-      Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+      Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -31,14 +30,12 @@ class GeolocationPermissionShowPromptResponse {
       allow: map['allow'],
       origin: map['origin'],
     );
-    if (map['retain'] != null) {
-      instance.retain = map['retain'];
-    }
+    instance.retain = map['retain'];
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "allow": allow,
       "origin": origin,

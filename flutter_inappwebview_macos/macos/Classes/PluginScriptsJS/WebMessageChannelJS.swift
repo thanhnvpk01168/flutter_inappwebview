@@ -7,10 +7,4 @@
 
 import Foundation
 
-public class WebMessageChannelJS {
-    
-    public static func WEB_MESSAGE_CHANNELS_VARIABLE_NAME() -> String {
-        return "window.\(JavaScriptBridgeJS.get_JAVASCRIPT_BRIDGE_NAME())._webMessageChannels"
-    }
-    
-}
+let WEB_MESSAGE_CHANNELS_VARIABLE_NAME = "window.\(JAVASCRIPT_BRIDGE_NAME)._webMessageChannels"

@@ -199,133 +199,96 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   @mustCallSuper
   void dispose() => platform.dispose();
 
-  ///Use [onFormResubmission] instead.
-  @Deprecated('Use onFormResubmission instead')
   @override
-  FutureOr<FormResubmissionAction?>? androidOnFormResubmission(Uri? url) {
+  Future<FormResubmissionAction?>? androidOnFormResubmission(Uri? url) {
     return null;
   }
 
-  ///Use [onGeolocationPermissionsHidePrompt] instead.
-  @Deprecated("Use onGeolocationPermissionsHidePrompt instead")
   @override
   void androidOnGeolocationPermissionsHidePrompt() {}
 
-  ///Use [onGeolocationPermissionsShowPrompt] instead.
-  @Deprecated("Use onGeolocationPermissionsShowPrompt instead")
   @override
-  FutureOr<GeolocationPermissionShowPromptResponse?>?
+  Future<GeolocationPermissionShowPromptResponse?>?
       androidOnGeolocationPermissionsShowPrompt(String origin) {
     return null;
   }
 
-  ///Use [onJsBeforeUnload] instead.
-  @Deprecated('Use onJsBeforeUnload instead')
   @override
-  FutureOr<JsBeforeUnloadResponse?>? androidOnJsBeforeUnload(
+  Future<JsBeforeUnloadResponse?>? androidOnJsBeforeUnload(
       JsBeforeUnloadRequest jsBeforeUnloadRequest) {
     return null;
   }
 
-  ///Use [onPermissionRequest] instead.
-  @Deprecated("Use onPermissionRequest instead")
   @override
-  FutureOr<PermissionRequestResponse?>? androidOnPermissionRequest(
+  Future<PermissionRequestResponse?>? androidOnPermissionRequest(
       String origin, List<String> resources) {
     return null;
   }
 
-  ///Use [onReceivedIcon] instead.
-  @Deprecated('Use onReceivedIcon instead')
   @override
   void androidOnReceivedIcon(Uint8List icon) {}
 
-  ///Use [onReceivedLoginRequest] instead.
-  @Deprecated('Use onReceivedLoginRequest instead')
   @override
   void androidOnReceivedLoginRequest(LoginRequest loginRequest) {}
 
-  ///Use [onReceivedTouchIconUrl] instead.
-  @Deprecated('Use onReceivedTouchIconUrl instead')
   @override
   void androidOnReceivedTouchIconUrl(Uri url, bool precomposed) {}
 
-  ///Use [onRenderProcessGone] instead.
-  @Deprecated("Use onRenderProcessGone instead")
   @override
   void androidOnRenderProcessGone(RenderProcessGoneDetail detail) {}
 
-  ///Use [onRenderProcessResponsive] instead.
-  @Deprecated("Use onRenderProcessResponsive instead")
   @override
-  FutureOr<WebViewRenderProcessAction?>? androidOnRenderProcessResponsive(
+  Future<WebViewRenderProcessAction?>? androidOnRenderProcessResponsive(
       Uri? url) {
     return null;
   }
 
-  ///Use [onRenderProcessUnresponsive] instead.
-  @Deprecated("Use onRenderProcessUnresponsive instead")
   @override
-  FutureOr<WebViewRenderProcessAction?>? androidOnRenderProcessUnresponsive(
+  Future<WebViewRenderProcessAction?>? androidOnRenderProcessUnresponsive(
       Uri? url) {
     return null;
   }
 
-  ///Use [onSafeBrowsingHit] instead.
-  @Deprecated("Use onSafeBrowsingHit instead")
   @override
-  FutureOr<SafeBrowsingResponse?>? androidOnSafeBrowsingHit(
+  Future<SafeBrowsingResponse?>? androidOnSafeBrowsingHit(
       Uri url, SafeBrowsingThreat? threatType) {
     return null;
   }
 
-  ///Use [onZoomScaleChanged] instead.
-  @Deprecated('Use onZoomScaleChanged instead')
   @override
   void androidOnScaleChanged(double oldScale, double newScale) {}
 
-  ///Use [shouldInterceptRequest] instead.
-  @Deprecated("Use shouldInterceptRequest instead")
   @override
-  FutureOr<WebResourceResponse?>? androidShouldInterceptRequest(
+  Future<WebResourceResponse?>? androidShouldInterceptRequest(
       WebResourceRequest request) {
     return null;
   }
 
-  ///Use [onDidReceiveServerRedirectForProvisionalNavigation] instead.
-  @Deprecated('Use onDidReceiveServerRedirectForProvisionalNavigation instead')
   @override
   void iosOnDidReceiveServerRedirectForProvisionalNavigation() {}
 
-  ///Use [onNavigationResponse] instead.
-  @Deprecated('Use onNavigationResponse instead')
   @override
-  FutureOr<IOSNavigationResponseAction?>? iosOnNavigationResponse(
+  Future<IOSNavigationResponseAction?>? iosOnNavigationResponse(
       IOSWKNavigationResponse navigationResponse) {
     return null;
   }
 
-  ///Use [onWebContentProcessDidTerminate] instead.
-  @Deprecated('Use onWebContentProcessDidTerminate instead')
   @override
   void iosOnWebContentProcessDidTerminate() {}
 
-  ///Use [shouldAllowDeprecatedTLS] instead.
-  @Deprecated('Use shouldAllowDeprecatedTLS instead')
   @override
-  FutureOr<IOSShouldAllowDeprecatedTLSAction?>? iosShouldAllowDeprecatedTLS(
+  Future<IOSShouldAllowDeprecatedTLSAction?>? iosShouldAllowDeprecatedTLS(
       URLAuthenticationChallenge challenge) {
     return null;
   }
 
   @override
-  FutureOr<AjaxRequestAction?>? onAjaxProgress(AjaxRequest ajaxRequest) {
+  Future<AjaxRequestAction?>? onAjaxProgress(AjaxRequest ajaxRequest) {
     return null;
   }
 
   @override
-  FutureOr<AjaxRequestAction?>? onAjaxReadyStateChange(
-      AjaxRequest ajaxRequest) {
+  Future<AjaxRequestAction?>? onAjaxReadyStateChange(AjaxRequest ajaxRequest) {
     return null;
   }
 
@@ -346,28 +309,18 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onContentSizeChanged(Size oldContentSize, Size newContentSize) {}
 
   @override
-  FutureOr<bool?>? onCreateWindow(CreateWindowAction createWindowAction) {
+  Future<bool?>? onCreateWindow(CreateWindowAction createWindowAction) {
     return null;
   }
 
   @override
   void onDidReceiveServerRedirectForProvisionalNavigation() {}
 
-  ///Use [onDownloadStarting] instead
-  @Deprecated('Use onDownloadStarting instead')
   @override
   void onDownloadStart(Uri url) {}
 
-  ///Use [onDownloadStarting] instead
-  @Deprecated('Use onDownloadStarting instead')
   @override
   void onDownloadStartRequest(DownloadStartRequest downloadStartRequest) {}
-
-  @override
-  FutureOr<DownloadStartResponse?>? onDownloadStarting(
-      DownloadStartRequest downloadStartRequest) {
-    return null;
-  }
 
   @override
   void onEnterFullscreen() {}
@@ -378,14 +331,12 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   @override
   void onExitFullscreen() {}
 
-  ///Use [FindInteractionController.onFindResultReceived] instead.
-  @Deprecated('Use FindInteractionController.onFindResultReceived instead')
   @override
   void onFindResultReceived(
       int activeMatchOrdinal, int numberOfMatches, bool isDoneCounting) {}
 
   @override
-  FutureOr<FormResubmissionAction?>? onFormResubmission(WebUri? url) {
+  Future<FormResubmissionAction?>? onFormResubmission(WebUri? url) {
     return null;
   }
 
@@ -393,54 +344,48 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onGeolocationPermissionsHidePrompt() {}
 
   @override
-  FutureOr<GeolocationPermissionShowPromptResponse?>?
+  Future<GeolocationPermissionShowPromptResponse?>?
       onGeolocationPermissionsShowPrompt(String origin) {
     return null;
   }
 
   @override
-  FutureOr<JsAlertResponse?>? onJsAlert(JsAlertRequest jsAlertRequest) {
+  Future<JsAlertResponse?>? onJsAlert(JsAlertRequest jsAlertRequest) {
     return null;
   }
 
   @override
-  FutureOr<JsBeforeUnloadResponse?>? onJsBeforeUnload(
+  Future<JsBeforeUnloadResponse?>? onJsBeforeUnload(
       JsBeforeUnloadRequest jsBeforeUnloadRequest) {
     return null;
   }
 
   @override
-  FutureOr<JsConfirmResponse?>? onJsConfirm(JsConfirmRequest jsConfirmRequest) {
+  Future<JsConfirmResponse?>? onJsConfirm(JsConfirmRequest jsConfirmRequest) {
     return null;
   }
 
   @override
-  FutureOr<JsPromptResponse?>? onJsPrompt(JsPromptRequest jsPromptRequest) {
+  Future<JsPromptResponse?>? onJsPrompt(JsPromptRequest jsPromptRequest) {
     return null;
   }
 
-  ///Use [onReceivedError] instead.
-  @Deprecated("Use onReceivedError instead")
   @override
   void onLoadError(Uri? url, int code, String message) {}
 
-  ///Use [onReceivedHttpError] instead.
-  @Deprecated("Use onReceivedHttpError instead")
   @override
   void onLoadHttpError(Uri? url, int statusCode, String description) {}
 
   @override
   void onLoadResource(LoadedResource resource) {}
 
-  ///Use [onLoadResourceWithCustomScheme] instead.
-  @Deprecated('Use onLoadResourceWithCustomScheme instead')
   @override
-  FutureOr<CustomSchemeResponse?>? onLoadResourceCustomScheme(Uri url) {
+  Future<CustomSchemeResponse?>? onLoadResourceCustomScheme(Uri url) {
     return null;
   }
 
   @override
-  FutureOr<CustomSchemeResponse?>? onLoadResourceWithCustomScheme(
+  Future<CustomSchemeResponse?>? onLoadResourceWithCustomScheme(
       WebResourceRequest request) {
     return null;
   }
@@ -459,7 +404,7 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
       MediaCaptureState? oldState, MediaCaptureState? newState) {}
 
   @override
-  FutureOr<NavigationResponseAction?>? onNavigationResponse(
+  Future<NavigationResponseAction?>? onNavigationResponse(
       NavigationResponse navigationResponse) {
     return null;
   }
@@ -471,7 +416,7 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onPageCommitVisible(WebUri? url) {}
 
   @override
-  FutureOr<PermissionResponse?>? onPermissionRequest(
+  Future<PermissionResponse?>? onPermissionRequest(
       PermissionRequest permissionRequest) {
     return null;
   }
@@ -479,13 +424,11 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   @override
   void onPermissionRequestCanceled(PermissionRequest permissionRequest) {}
 
-  ///Use [onPrintRequest] instead
-  @Deprecated("Use onPrintRequest instead")
   @override
   void onPrint(Uri? url) {}
 
   @override
-  FutureOr<bool?>? onPrintRequest(
+  Future<bool?>? onPrintRequest(
       WebUri? url, PlatformPrintJobController? printJobController) {
     return null;
   }
@@ -494,8 +437,8 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onProgressChanged(int progress) {}
 
   @override
-  FutureOr<ClientCertResponse?>? onReceivedClientCertRequest(
-      ClientCertChallenge challenge) {
+  Future<ClientCertResponse?>? onReceivedClientCertRequest(
+      URLAuthenticationChallenge challenge) {
     return null;
   }
 
@@ -503,8 +446,8 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onReceivedError(WebResourceRequest request, WebResourceError error) {}
 
   @override
-  FutureOr<HttpAuthResponse?>? onReceivedHttpAuthRequest(
-      HttpAuthenticationChallenge challenge) {
+  Future<HttpAuthResponse?>? onReceivedHttpAuthRequest(
+      URLAuthenticationChallenge challenge) {
     return null;
   }
 
@@ -519,8 +462,8 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onReceivedLoginRequest(LoginRequest loginRequest) {}
 
   @override
-  FutureOr<ServerTrustAuthResponse?>? onReceivedServerTrustAuthRequest(
-      ServerTrustChallenge challenge) {
+  Future<ServerTrustAuthResponse?>? onReceivedServerTrustAuthRequest(
+      URLAuthenticationChallenge challenge) {
     return null;
   }
 
@@ -531,13 +474,12 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onRenderProcessGone(RenderProcessGoneDetail detail) {}
 
   @override
-  FutureOr<WebViewRenderProcessAction?>? onRenderProcessResponsive(
-      WebUri? url) {
+  Future<WebViewRenderProcessAction?>? onRenderProcessResponsive(WebUri? url) {
     return null;
   }
 
   @override
-  FutureOr<WebViewRenderProcessAction?>? onRenderProcessUnresponsive(
+  Future<WebViewRenderProcessAction?>? onRenderProcessUnresponsive(
       WebUri? url) {
     return null;
   }
@@ -546,7 +488,7 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onRequestFocus() {}
 
   @override
-  FutureOr<SafeBrowsingResponse?>? onSafeBrowsingHit(
+  Future<SafeBrowsingResponse?>? onSafeBrowsingHit(
       WebUri url, SafeBrowsingThreat? threatType) {
     return null;
   }
@@ -573,45 +515,34 @@ class InAppBrowser implements PlatformInAppBrowserEvents {
   void onZoomScaleChanged(double oldScale, double newScale) {}
 
   @override
-  FutureOr<ShouldAllowDeprecatedTLSAction?>? shouldAllowDeprecatedTLS(
+  Future<ShouldAllowDeprecatedTLSAction?>? shouldAllowDeprecatedTLS(
       URLAuthenticationChallenge challenge) {
     return null;
   }
 
   @override
-  FutureOr<AjaxRequest?>? shouldInterceptAjaxRequest(AjaxRequest ajaxRequest) {
+  Future<AjaxRequest?>? shouldInterceptAjaxRequest(AjaxRequest ajaxRequest) {
     return null;
   }
 
   @override
-  FutureOr<FetchRequest?>? shouldInterceptFetchRequest(
+  Future<FetchRequest?>? shouldInterceptFetchRequest(
       FetchRequest fetchRequest) {
     return null;
   }
 
   @override
-  FutureOr<WebResourceResponse?>? shouldInterceptRequest(
+  Future<WebResourceResponse?>? shouldInterceptRequest(
       WebResourceRequest request) {
     return null;
   }
 
   @override
-  FutureOr<NavigationActionPolicy?>? shouldOverrideUrlLoading(
+  Future<NavigationActionPolicy?>? shouldOverrideUrlLoading(
       NavigationAction navigationAction) {
     return null;
   }
 
   @override
   void onMainWindowWillClose() {}
-
-  @override
-  void onProcessFailed(ProcessFailedDetail detail) {}
-
-  @override
-  void onAcceleratorKeyPressed(AcceleratorKeyPressedDetail detail) {}
-
-  @override
-  FutureOr<ShowFileChooserResponse?> onShowFileChooser(ShowFileChooserRequest request) {
-    return null;
-  }
 }

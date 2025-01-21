@@ -34,8 +34,7 @@ class PrintJobResolution {
       required this.verticalDpi});
 
   ///Gets a possible [PrintJobResolution] instance from a [Map] value.
-  static PrintJobResolution? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static PrintJobResolution? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -49,7 +48,7 @@ class PrintJobResolution {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "horizontalDpi": horizontalDpi,
       "id": id,

@@ -22,37 +22,25 @@ class FindSession {
       required this.searchResultDisplayStyle});
 
   ///Gets a possible [FindSession] instance from a [Map] value.
-  static FindSession? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static FindSession? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = FindSession(
       highlightedResultIndex: map['highlightedResultIndex'],
       resultCount: map['resultCount'],
-      searchResultDisplayStyle: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => SearchResultDisplayStyle.fromNativeValue(
-            map['searchResultDisplayStyle']),
-        EnumMethod.value =>
-          SearchResultDisplayStyle.fromValue(map['searchResultDisplayStyle']),
-        EnumMethod.name =>
-          SearchResultDisplayStyle.byName(map['searchResultDisplayStyle'])
-      }!,
+      searchResultDisplayStyle: SearchResultDisplayStyle.fromNativeValue(
+          map['searchResultDisplayStyle'])!,
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "highlightedResultIndex": highlightedResultIndex,
       "resultCount": resultCount,
-      "searchResultDisplayStyle": switch (
-          enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => searchResultDisplayStyle.toNativeValue(),
-        EnumMethod.value => searchResultDisplayStyle.toValue(),
-        EnumMethod.name => searchResultDisplayStyle.name()
-      },
+      "searchResultDisplayStyle": searchResultDisplayStyle.toNativeValue(),
     };
   }
 

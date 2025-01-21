@@ -35,8 +35,7 @@ class CustomSchemeRegistration {
       this.treatAsSecure});
 
   ///Gets a possible [CustomSchemeRegistration] instance from a [Map] value.
-  static CustomSchemeRegistration? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static CustomSchemeRegistration? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -52,7 +51,7 @@ class CustomSchemeRegistration {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "allowedOrigins": allowedOrigins,
       "hasAuthorityComponent": hasAuthorityComponent,

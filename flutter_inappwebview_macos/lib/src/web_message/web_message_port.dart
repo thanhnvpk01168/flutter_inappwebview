@@ -67,7 +67,7 @@ class MacOSWebMessagePort extends PlatformWebMessagePort {
   }
 
   @override
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "index": params.index,
       "webMessageChannelId": this._webMessageChannel.params.id

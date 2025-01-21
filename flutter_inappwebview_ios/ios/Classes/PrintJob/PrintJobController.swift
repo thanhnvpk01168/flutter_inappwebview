@@ -36,9 +36,11 @@ public class PrintJobController: NSObject, Disposable, UIPrintInteractionControl
         self.printFormatter = job?.printFormatter
         self.printPageRenderer = job?.printPageRenderer
         self.job?.delegate = self
-        let channel = FlutterMethodChannel(name: PrintJobController.METHOD_CHANNEL_NAME_PREFIX + id,
-                                           binaryMessenger: plugin.registrar.messenger())
-        self.channelDelegate = PrintJobChannelDelegate(printJobController: self, channel: channel)
+        if let registrar = plugin.registrar {
+            let channel = FlutterMethodChannel(name: PrintJobController.METHOD_CHANNEL_NAME_PREFIX + id,
+                                               binaryMessenger: registrar.messenger())
+            self.channelDelegate = PrintJobChannelDelegate(printJobController: self, channel: channel)
+        }
     }
     
     public func printInteractionControllerWillStartJob(_ printInteractionController: UIPrintInteractionController) {
@@ -96,9 +98,5 @@ public class PrintJobController: NSObject, Disposable, UIPrintInteractionControl
         job = nil
         plugin?.printJobManager?.jobs[id] = nil
         plugin = nil
-    }
-    
-    deinit {
-        debugPrint("PrintJobController - dealloc")
     }
 }

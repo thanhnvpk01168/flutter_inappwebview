@@ -58,25 +58,23 @@ class ProcessGlobalConfigSettings {
       {this.dataDirectorySuffix, this.directoryBasePaths});
 
   ///Gets a possible [ProcessGlobalConfigSettings] instance from a [Map] value.
-  static ProcessGlobalConfigSettings? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ProcessGlobalConfigSettings? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ProcessGlobalConfigSettings(
       dataDirectorySuffix: map['dataDirectorySuffix'],
       directoryBasePaths: ProcessGlobalConfigDirectoryBasePaths.fromMap(
-          map['directoryBasePaths']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
+          map['directoryBasePaths']?.cast<String, dynamic>()),
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "dataDirectorySuffix": dataDirectorySuffix,
-      "directoryBasePaths": directoryBasePaths?.toMap(enumMethod: enumMethod),
+      "directoryBasePaths": directoryBasePaths?.toMap(),
     };
   }
 
@@ -113,8 +111,7 @@ class ProcessGlobalConfigDirectoryBasePaths {
 
   ///Gets a possible [ProcessGlobalConfigDirectoryBasePaths] instance from a [Map] value.
   static ProcessGlobalConfigDirectoryBasePaths? fromMap(
-      Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+      Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -126,7 +123,7 @@ class ProcessGlobalConfigDirectoryBasePaths {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "cacheDirectoryBasePath": cacheDirectoryBasePath,
       "dataDirectoryBasePath": dataDirectoryBasePath,

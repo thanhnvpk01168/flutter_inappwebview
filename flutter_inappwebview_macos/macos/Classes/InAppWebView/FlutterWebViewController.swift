@@ -39,9 +39,11 @@ public class FlutterWebViewController: NSView, Disposable {
             webView = webViewTransport.webView
             webView!.id = viewId
             webView!.plugin = plugin
-            let channel = FlutterMethodChannel(name: InAppWebView.METHOD_CHANNEL_NAME_PREFIX + String(describing: viewId),
-                                               binaryMessenger: plugin.registrar.messenger)
-            webView!.channelDelegate = WebViewChannelDelegate(webView: webView!, channel: channel)
+            if let registrar = plugin.registrar {
+                let channel = FlutterMethodChannel(name: InAppWebView.METHOD_CHANNEL_NAME_PREFIX + String(describing: viewId),
+                                                   binaryMessenger: registrar.messenger)
+                webView!.channelDelegate = WebViewChannelDelegate(webView: webView!, channel: channel)
+            }
             webView!.frame = self.bounds
             webView!.initialUserScripts = userScripts
         } else {

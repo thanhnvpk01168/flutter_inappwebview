@@ -1,7 +1,6 @@
 import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_internal_annotations.dart';
 
 import 'in_app_webview_rect.dart';
-import 'enum_method.dart';
 
 part 'pdf_configuration.g.dart';
 

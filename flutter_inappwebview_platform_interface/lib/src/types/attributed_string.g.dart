@@ -124,8 +124,7 @@ class AttributedString {
       this.underlineStyle});
 
   ///Gets a possible [AttributedString] instance from a [Map] value.
-  static AttributedString? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static AttributedString? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -144,40 +143,25 @@ class AttributedString {
       strikethroughColor: map['strikethroughColor'] != null
           ? UtilColor.fromStringRepresentation(map['strikethroughColor'])
           : null,
-      strikethroughStyle: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
+      strikethroughStyle:
           UnderlineStyle.fromNativeValue(map['strikethroughStyle']),
-        EnumMethod.value => UnderlineStyle.fromValue(map['strikethroughStyle']),
-        EnumMethod.name => UnderlineStyle.byName(map['strikethroughStyle'])
-      },
       string: map['string'],
       strokeColor: map['strokeColor'] != null
           ? UtilColor.fromStringRepresentation(map['strokeColor'])
           : null,
       strokeWidth: map['strokeWidth'],
-      textEffect: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
+      textEffect:
           AttributedStringTextEffectStyle.fromNativeValue(map['textEffect']),
-        EnumMethod.value =>
-          AttributedStringTextEffectStyle.fromValue(map['textEffect']),
-        EnumMethod.name =>
-          AttributedStringTextEffectStyle.byName(map['textEffect'])
-      },
       underlineColor: map['underlineColor'] != null
           ? UtilColor.fromStringRepresentation(map['underlineColor'])
           : null,
-      underlineStyle: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          UnderlineStyle.fromNativeValue(map['underlineStyle']),
-        EnumMethod.value => UnderlineStyle.fromValue(map['underlineStyle']),
-        EnumMethod.name => UnderlineStyle.byName(map['underlineStyle'])
-      },
+      underlineStyle: UnderlineStyle.fromNativeValue(map['underlineStyle']),
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "backgroundColor": backgroundColor?.toHex(),
       "baselineOffset": baselineOffset,
@@ -187,25 +171,13 @@ class AttributedString {
       "ligature": ligature,
       "obliqueness": obliqueness,
       "strikethroughColor": strikethroughColor?.toHex(),
-      "strikethroughStyle": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => strikethroughStyle?.toNativeValue(),
-        EnumMethod.value => strikethroughStyle?.toValue(),
-        EnumMethod.name => strikethroughStyle?.name()
-      },
+      "strikethroughStyle": strikethroughStyle?.toNativeValue(),
       "string": string,
       "strokeColor": strokeColor?.toHex(),
       "strokeWidth": strokeWidth,
-      "textEffect": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => textEffect?.toNativeValue(),
-        EnumMethod.value => textEffect?.toValue(),
-        EnumMethod.name => textEffect?.name()
-      },
+      "textEffect": textEffect?.toNativeValue(),
       "underlineColor": underlineColor?.toHex(),
-      "underlineStyle": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => underlineStyle?.toNativeValue(),
-        EnumMethod.value => underlineStyle?.toValue(),
-        EnumMethod.name => underlineStyle?.name()
-      },
+      "underlineStyle": underlineStyle?.toNativeValue(),
     };
   }
 
@@ -340,8 +312,7 @@ class IOSNSAttributedString {
       this.underlineStyle});
 
   ///Gets a possible [IOSNSAttributedString] instance from a [Map] value.
-  static IOSNSAttributedString? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static IOSNSAttributedString? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -360,43 +331,26 @@ class IOSNSAttributedString {
       strikethroughColor: map['strikethroughColor'] != null
           ? UtilColor.fromStringRepresentation(map['strikethroughColor'])
           : null,
-      strikethroughStyle: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
+      strikethroughStyle:
           IOSNSUnderlineStyle.fromNativeValue(map['strikethroughStyle']),
-        EnumMethod.value =>
-          IOSNSUnderlineStyle.fromValue(map['strikethroughStyle']),
-        EnumMethod.name => IOSNSUnderlineStyle.byName(map['strikethroughStyle'])
-      },
       string: map['string'],
       strokeColor: map['strokeColor'] != null
           ? UtilColor.fromStringRepresentation(map['strokeColor'])
           : null,
       strokeWidth: map['strokeWidth'],
-      textEffect: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          IOSNSAttributedStringTextEffectStyle.fromNativeValue(
-              map['textEffect']),
-        EnumMethod.value =>
-          IOSNSAttributedStringTextEffectStyle.fromValue(map['textEffect']),
-        EnumMethod.name =>
-          IOSNSAttributedStringTextEffectStyle.byName(map['textEffect'])
-      },
+      textEffect: IOSNSAttributedStringTextEffectStyle.fromNativeValue(
+          map['textEffect']),
       underlineColor: map['underlineColor'] != null
           ? UtilColor.fromStringRepresentation(map['underlineColor'])
           : null,
-      underlineStyle: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
+      underlineStyle:
           IOSNSUnderlineStyle.fromNativeValue(map['underlineStyle']),
-        EnumMethod.value =>
-          IOSNSUnderlineStyle.fromValue(map['underlineStyle']),
-        EnumMethod.name => IOSNSUnderlineStyle.byName(map['underlineStyle'])
-      },
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "backgroundColor": backgroundColor?.toHex(),
       "baselineOffset": baselineOffset,
@@ -406,25 +360,13 @@ class IOSNSAttributedString {
       "ligature": ligature,
       "obliqueness": obliqueness,
       "strikethroughColor": strikethroughColor?.toHex(),
-      "strikethroughStyle": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => strikethroughStyle?.toNativeValue(),
-        EnumMethod.value => strikethroughStyle?.toValue(),
-        EnumMethod.name => strikethroughStyle?.name()
-      },
+      "strikethroughStyle": strikethroughStyle?.toNativeValue(),
       "string": string,
       "strokeColor": strokeColor?.toHex(),
       "strokeWidth": strokeWidth,
-      "textEffect": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => textEffect?.toNativeValue(),
-        EnumMethod.value => textEffect?.toValue(),
-        EnumMethod.name => textEffect?.name()
-      },
+      "textEffect": textEffect?.toNativeValue(),
       "underlineColor": underlineColor?.toHex(),
-      "underlineStyle": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => underlineStyle?.toNativeValue(),
-        EnumMethod.value => underlineStyle?.toValue(),
-        EnumMethod.name => underlineStyle?.name()
-      },
+      "underlineStyle": underlineStyle?.toNativeValue(),
     };
   }
 

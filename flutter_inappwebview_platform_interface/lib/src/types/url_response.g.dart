@@ -38,8 +38,7 @@ class URLResponse {
       this.url});
 
   ///Gets a possible [URLResponse] instance from a [Map] value.
-  static URLResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static URLResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -56,7 +55,7 @@ class URLResponse {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "expectedContentLength": expectedContentLength,
       "headers": headers,
@@ -112,8 +111,7 @@ class IOSURLResponse {
       this.url});
 
   ///Gets a possible [IOSURLResponse] instance from a [Map] value.
-  static IOSURLResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static IOSURLResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -130,7 +128,7 @@ class IOSURLResponse {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "expectedContentLength": expectedContentLength,
       "headers": headers,

@@ -16,19 +16,9 @@ class ClientCertResponse {
   String? androidKeyStoreType;
 
   ///The certificate password.
-  ///
-  ///**Officially Supported Platforms/Implementations**:
-  ///- Android native WebView
-  ///- iOS
-  ///- MacOS
   String? certificatePassword;
 
   ///The file path of the certificate to use.
-  ///
-  ///**Officially Supported Platforms/Implementations**:
-  ///- Android native WebView
-  ///- iOS
-  ///- MacOS
   String certificatePath;
 
   ///An Android-specific property used by Java [KeyStore](https://developer.android.com/reference/java/security/KeyStore) class to get the instance.
@@ -36,63 +26,41 @@ class ClientCertResponse {
   ///**Officially Supported Platforms/Implementations**:
   ///- Android native WebView
   String? keyStoreType;
-
-  ///The index of the selected certificate.
-  ///
-  ///**Officially Supported Platforms/Implementations**:
-  ///- Windows
-  int selectedCertificate;
   ClientCertResponse(
-      {this.certificatePath = "",
+      {required this.certificatePath,
       this.certificatePassword = "",
       @Deprecated('Use keyStoreType instead')
       this.androidKeyStoreType = "PKCS12",
       this.keyStoreType = "PKCS12",
-      this.selectedCertificate = -1,
       this.action = ClientCertResponseAction.CANCEL}) {
-    if (this.action == ClientCertResponseAction.PROCEED && !Util.isWindows)
+    if (this.action == ClientCertResponseAction.PROCEED)
       assert(certificatePath.isNotEmpty);
     this.keyStoreType = this.keyStoreType ?? this.androidKeyStoreType;
     if (Util.isAndroid) assert(this.keyStoreType != null);
   }
 
   ///Gets a possible [ClientCertResponse] instance from a [Map] value.
-  static ClientCertResponse? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ClientCertResponse? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
-    final instance = ClientCertResponse();
-    instance.action = switch (enumMethod ?? EnumMethod.nativeValue) {
-      EnumMethod.nativeValue =>
-        ClientCertResponseAction.fromNativeValue(map['action']),
-      EnumMethod.value => ClientCertResponseAction.fromValue(map['action']),
-      EnumMethod.name => ClientCertResponseAction.byName(map['action'])
-    };
+    final instance = ClientCertResponse(
+      certificatePath: map['certificatePath'],
+    );
+    instance.action = ClientCertResponseAction.fromNativeValue(map['action']);
     instance.androidKeyStoreType = map['keyStoreType'];
     instance.certificatePassword = map['certificatePassword'];
-    if (map['certificatePath'] != null) {
-      instance.certificatePath = map['certificatePath'];
-    }
     instance.keyStoreType = map['keyStoreType'];
-    if (map['selectedCertificate'] != null) {
-      instance.selectedCertificate = map['selectedCertificate'];
-    }
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "action": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => action?.toNativeValue(),
-        EnumMethod.value => action?.toValue(),
-        EnumMethod.name => action?.name()
-      },
+      "action": action?.toNativeValue(),
       "certificatePassword": certificatePassword,
       "certificatePath": certificatePath,
       "keyStoreType": keyStoreType,
-      "selectedCertificate": selectedCertificate,
     };
   }
 
@@ -103,6 +71,6 @@ class ClientCertResponse {
 
   @override
   String toString() {
-    return 'ClientCertResponse{action: $action, certificatePassword: $certificatePassword, certificatePath: $certificatePath, keyStoreType: $keyStoreType, selectedCertificate: $selectedCertificate}';
+    return 'ClientCertResponse{action: $action, certificatePassword: $certificatePassword, certificatePath: $certificatePath, keyStoreType: $keyStoreType}';
   }
 }

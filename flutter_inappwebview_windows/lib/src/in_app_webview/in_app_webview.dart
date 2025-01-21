@@ -37,10 +37,8 @@ class WindowsInAppWebViewWidgetCreationParams
       super.shouldOverrideUrlLoading,
       super.onLoadResource,
       super.onScrollChanged,
-      @Deprecated('Use onDownloadStarting instead') super.onDownloadStart,
-      @Deprecated('Use onDownloadStarting instead')
+      @Deprecated('Use onDownloadStartRequest instead') super.onDownloadStart,
       super.onDownloadStartRequest,
-      super.onDownloadStarting,
       @Deprecated('Use onLoadResourceWithCustomScheme instead')
       super.onLoadResourceCustomScheme,
       super.onLoadResourceWithCustomScheme,
@@ -165,7 +163,6 @@ class WindowsInAppWebViewWidgetCreationParams
             onScrollChanged: params.onScrollChanged,
             onDownloadStart: params.onDownloadStart,
             onDownloadStartRequest: params.onDownloadStartRequest,
-            onDownloadStarting: params.onDownloadStarting,
             onLoadResourceCustomScheme: params.onLoadResourceCustomScheme,
             onLoadResourceWithCustomScheme:
                 params.onLoadResourceWithCustomScheme,
@@ -363,24 +360,15 @@ class WindowsInAppWebViewWidget extends PlatformInAppWebViewWidget {
     if (params.onLoadResource != null && settings.useOnLoadResource == null) {
       settings.useOnLoadResource = true;
     }
-    if ((params.onDownloadStartRequest != null ||
-            params.onDownloadStarting != null) &&
+    if (params.onDownloadStartRequest != null &&
         settings.useOnDownloadStart == null) {
       settings.useOnDownloadStart = true;
     }
     if ((params.shouldInterceptAjaxRequest != null ||
-        params.onAjaxProgress != null ||
-        params.onAjaxReadyStateChange != null)) {
-      if (settings.useShouldInterceptAjaxRequest == null) {
-        settings.useShouldInterceptAjaxRequest = true;
-      }
-      if (params.onAjaxReadyStateChange != null &&
-          settings.useOnAjaxReadyStateChange == null) {
-        settings.useOnAjaxReadyStateChange = true;
-      }
-      if (params.onAjaxProgress != null && settings.useOnAjaxProgress == null) {
-        settings.useOnAjaxProgress = true;
-      }
+            params.onAjaxProgress != null ||
+            params.onAjaxReadyStateChange != null) &&
+        settings.useShouldInterceptAjaxRequest == null) {
+      settings.useShouldInterceptAjaxRequest = true;
     }
     if (params.shouldInterceptFetchRequest != null &&
         settings.useShouldInterceptFetchRequest == null) {

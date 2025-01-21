@@ -5,8 +5,6 @@ void clearAndSetProxyOverride() {
       ? true
       : ![
           TargetPlatform.android,
-          TargetPlatform.iOS,
-          TargetPlatform.macOS,
         ].contains(defaultTargetPlatform);
 
   skippableTestWidgets('clear and set proxy override',
@@ -15,7 +13,7 @@ void clearAndSetProxyOverride() {
         Completer<InAppWebViewController>();
     final Completer<String> pageLoaded = Completer<String>();
 
-    var proxyAvailable = defaultTargetPlatform != TargetPlatform.android ||
+    var proxyAvailable =
         await WebViewFeature.isFeatureSupported(WebViewFeature.PROXY_OVERRIDE);
 
     if (proxyAvailable) {

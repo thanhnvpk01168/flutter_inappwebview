@@ -113,7 +113,7 @@ class Cookie {
       this.value});
 
   ///Gets a possible [Cookie] instance from a [Map] value.
-  static Cookie? fromMap(Map<String, dynamic>? map, {EnumMethod? enumMethod}) {
+  static Cookie? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -125,19 +125,14 @@ class Cookie {
       isSessionOnly: map['isSessionOnly'],
       name: map['name'],
       path: map['path'],
-      sameSite: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          HTTPCookieSameSitePolicy.fromNativeValue(map['sameSite']),
-        EnumMethod.value => HTTPCookieSameSitePolicy.fromValue(map['sameSite']),
-        EnumMethod.name => HTTPCookieSameSitePolicy.byName(map['sameSite'])
-      },
+      sameSite: HTTPCookieSameSitePolicy.fromNativeValue(map['sameSite']),
       value: map['value'],
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "domain": domain,
       "expiresDate": expiresDate,
@@ -146,11 +141,7 @@ class Cookie {
       "isSessionOnly": isSessionOnly,
       "name": name,
       "path": path,
-      "sameSite": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => sameSite?.toNativeValue(),
-        EnumMethod.value => sameSite?.toValue(),
-        EnumMethod.name => sameSite?.name()
-      },
+      "sameSite": sameSite?.toNativeValue(),
       "value": value,
     };
   }

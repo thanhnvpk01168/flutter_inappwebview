@@ -2,7 +2,6 @@ import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_i
 
 import 'ajax_request.dart';
 import 'ajax_request_event_type.dart';
-import 'enum_method.dart';
 
 part 'ajax_request_event.g.dart';
 

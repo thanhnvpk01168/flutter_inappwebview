@@ -24,25 +24,23 @@ class ActivityButton {
       {required this.templateImage, required this.extensionIdentifier});
 
   ///Gets a possible [ActivityButton] instance from a [Map] value.
-  static ActivityButton? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ActivityButton? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ActivityButton(
       extensionIdentifier: map['extensionIdentifier'],
-      templateImage: UIImage.fromMap(
-          map['templateImage']?.cast<String, dynamic>(),
-          enumMethod: enumMethod)!,
+      templateImage:
+          UIImage.fromMap(map['templateImage']?.cast<String, dynamic>())!,
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "extensionIdentifier": extensionIdentifier,
-      "templateImage": templateImage.toMap(enumMethod: enumMethod),
+      "templateImage": templateImage.toMap(),
     };
   }
 

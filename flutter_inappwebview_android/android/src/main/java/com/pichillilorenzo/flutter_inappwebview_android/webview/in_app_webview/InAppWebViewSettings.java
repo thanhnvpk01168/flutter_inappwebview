@@ -23,7 +23,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
 
@@ -49,8 +48,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
   public List<Map<String, Map<String, Object>>> contentBlockers = new ArrayList<>();
   public Integer preferredContentMode = PreferredContentModeOptionType.RECOMMENDED.toValue();
   public Boolean useShouldInterceptAjaxRequest = false;
-  public Boolean useOnAjaxReadyStateChange = false;
-  public Boolean useOnAjaxProgress = false;
   public Boolean interceptOnlyAsyncAjaxRequests = true;
   public Boolean useShouldInterceptFetchRequest = false;
   public Boolean incognito = false;
@@ -63,8 +60,7 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
   public Boolean allowFileAccessFromFileURLs = false;
   public Boolean allowUniversalAccessFromFileURLs = false;
   public Boolean allowBackgroundAudioPlaying = false;
-  @Nullable
-  public Integer textZoom;
+  public Integer textZoom = 100;
   /**
    * @deprecated
    */
@@ -76,11 +72,9 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
   public Boolean domStorageEnabled = true;
   public Boolean useWideViewPort = true;
   public Boolean safeBrowsingEnabled = true;
-  @Nullable
   public Integer mixedContentMode;
   public Boolean allowContentAccess = true;
   public Boolean allowFileAccess = true;
-  @Nullable
   public String appCachePath;
   public Boolean blockNetworkImage = false;
   public Boolean blockNetworkLoads = false;
@@ -92,10 +86,8 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
   public Integer disabledActionModeMenuItems;
   public String fantasyFontFamily = "fantasy";
   public String fixedFontFamily = "monospace";
-  @Nullable @Deprecated
-  public Integer forceDark;
-  @Nullable @Deprecated
-  public Integer forceDarkStrategy;
+  public Integer forceDark = 0; // WebSettingsCompat.FORCE_DARK_OFF
+  public Integer forceDarkStrategy = WebSettingsCompat.DARK_STRATEGY_PREFER_WEB_THEME_OVER_USER_AGENT_DARKENING;
   public Boolean geolocationEnabled = true;
   public WebSettings.LayoutAlgorithm layoutAlgorithm;
   public Boolean loadWithOverviewMode = true;
@@ -111,22 +103,16 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
   public Boolean thirdPartyCookiesEnabled = true;
   public Boolean hardwareAcceleration = true;
   public Boolean supportMultipleWindows = false;
-  @Nullable
-  public Pattern regexToCancelSubFramesLoading;
-  @Nullable
-  public Pattern regexToAllowSyncUrlLoading;
+  public String regexToCancelSubFramesLoading;
   public Integer overScrollMode = View.OVER_SCROLL_IF_CONTENT_SCROLLS;
-  @Nullable
-  public Boolean networkAvailable;
+  public Boolean networkAvailable = null;
   public Integer scrollBarStyle = View.SCROLLBARS_INSIDE_OVERLAY;
   public Integer verticalScrollbarPosition = View.SCROLLBAR_POSITION_DEFAULT;
-  @Nullable
-  public Integer scrollBarDefaultDelayBeforeFade;
+  public Integer scrollBarDefaultDelayBeforeFade = null;
   public Boolean scrollbarFadingEnabled = true;
+  public Integer scrollBarFadeDuration = null;
   @Nullable
-  public Integer scrollBarFadeDuration;
-  @Nullable
-  public Map<String, Object> rendererPriorityPolicy;
+  public Map<String, Object> rendererPriorityPolicy = null;
   public Boolean useShouldInterceptRequest = false;
   public Boolean useOnRenderProcessGone = false;
   public Boolean disableDefaultErrorPage = false;
@@ -147,21 +133,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
   public byte[] defaultVideoPoster;
   @Nullable
   public Set<String> requestedWithHeaderOriginAllowList;
-  @Nullable
-  public Set<Pattern> javaScriptHandlersOriginAllowList;
-  public Boolean javaScriptHandlersForMainFrameOnly = false;
-  public Boolean javaScriptBridgeEnabled = true;
-  @Nullable
-  public Set<String> javaScriptBridgeOriginAllowList;
-  @Nullable
-  public Boolean javaScriptBridgeForMainFrameOnly;
-  @Nullable
-  public Set<String> pluginScriptsOriginAllowList;
-  public Boolean pluginScriptsForMainFrameOnly = false;
-  public Boolean isUserInteractionEnabled = true;
-  @Nullable
-  public Double alpha;
-  public Boolean useOnShowFileChooser = false;
 
   @NonNull
   @Override
@@ -221,12 +192,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
           break;
         case "useShouldInterceptAjaxRequest":
           useShouldInterceptAjaxRequest = (Boolean) value;
-          break;
-        case "useOnAjaxReadyStateChange":
-          useOnAjaxReadyStateChange = (Boolean) value;
-          break;
-        case "useOnAjaxProgress":
-          useOnAjaxProgress = (Boolean) value;
           break;
         case "interceptOnlyAsyncAjaxRequests":
           interceptOnlyAsyncAjaxRequests = (Boolean) value;
@@ -379,10 +344,7 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
           supportMultipleWindows = (Boolean) value;
           break;
         case "regexToCancelSubFramesLoading":
-          regexToCancelSubFramesLoading = Pattern.compile((String) value);
-          break;
-        case "regexToAllowSyncUrlLoading":
-          regexToAllowSyncUrlLoading = Pattern.compile((String) value);
+          regexToCancelSubFramesLoading = (String) value;
           break;
         case "overScrollMode":
           overScrollMode = (Integer) value;
@@ -450,39 +412,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
         case "requestedWithHeaderOriginAllowList":
           requestedWithHeaderOriginAllowList = new HashSet<>((List<String>) value);
           break;
-        case "javaScriptHandlersOriginAllowList":
-          javaScriptHandlersOriginAllowList = new HashSet<>();
-          for (String pattern : (List<String>) value) {
-            javaScriptHandlersOriginAllowList.add(Pattern.compile(pattern));
-          }
-          break;
-        case "javaScriptHandlersForMainFrameOnly":
-          javaScriptHandlersForMainFrameOnly = (Boolean) value;
-          break;
-        case "javaScriptBridgeEnabled":
-          javaScriptBridgeEnabled = (Boolean) value;
-          break;
-        case "javaScriptBridgeOriginAllowList":
-          javaScriptBridgeOriginAllowList = new HashSet<>((List<String>) value);
-          break;
-        case "javaScriptBridgeForMainFrameOnly":
-          javaScriptBridgeForMainFrameOnly = (Boolean) value;
-          break;
-        case "pluginScriptsOriginAllowList":
-          pluginScriptsOriginAllowList = new HashSet<>((List<String>) value);
-          break;
-        case "pluginScriptsForMainFrameOnly":
-          pluginScriptsForMainFrameOnly = (Boolean) value;
-          break;
-        case "isUserInteractionEnabled":
-          isUserInteractionEnabled = (Boolean) value;
-          break;
-        case "alpha":
-          alpha = (Double) value;
-          break;
-        case "useOnShowFileChooser":
-          useOnShowFileChooser = (Boolean) value;
-          break;
       }
     }
 
@@ -509,8 +438,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
     settings.put("contentBlockers", contentBlockers);
     settings.put("preferredContentMode", preferredContentMode);
     settings.put("useShouldInterceptAjaxRequest", useShouldInterceptAjaxRequest);
-    settings.put("useOnAjaxReadyStateChange", useOnAjaxReadyStateChange);
-    settings.put("useOnAjaxProgress", useOnAjaxProgress);
     settings.put("interceptOnlyAsyncAjaxRequests", interceptOnlyAsyncAjaxRequests);
     settings.put("useShouldInterceptFetchRequest", useShouldInterceptFetchRequest);
     settings.put("incognito", incognito);
@@ -561,8 +488,7 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
     settings.put("thirdPartyCookiesEnabled", thirdPartyCookiesEnabled);
     settings.put("hardwareAcceleration", hardwareAcceleration);
     settings.put("supportMultipleWindows", supportMultipleWindows);
-    settings.put("regexToCancelSubFramesLoading", regexToCancelSubFramesLoading != null ? regexToCancelSubFramesLoading.pattern() : null);
-    settings.put("regexToAllowSyncUrlLoading", regexToAllowSyncUrlLoading != null ? regexToAllowSyncUrlLoading.pattern() : null);
+    settings.put("regexToCancelSubFramesLoading", regexToCancelSubFramesLoading);
     settings.put("overScrollMode", overScrollMode);
     settings.put("networkAvailable", networkAvailable);
     settings.put("scrollBarStyle", scrollBarStyle);
@@ -585,23 +511,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
     settings.put("defaultVideoPoster", defaultVideoPoster);
     settings.put("requestedWithHeaderOriginAllowList",
             requestedWithHeaderOriginAllowList != null ? new ArrayList<>(requestedWithHeaderOriginAllowList) : null);
-    settings.put("javaScriptHandlersOriginAllowList",
-            javaScriptHandlersOriginAllowList != null ? new ArrayList<String>() {{
-              for (Pattern pattern : javaScriptHandlersOriginAllowList) {
-                add(pattern.pattern());
-              }
-            }} : null);
-    settings.put("javaScriptHandlersForMainFrameOnly", javaScriptHandlersForMainFrameOnly);
-    settings.put("javaScriptBridgeEnabled", javaScriptBridgeEnabled);
-    settings.put("javaScriptBridgeOriginAllowList",
-            javaScriptBridgeOriginAllowList != null ? new ArrayList<>(javaScriptBridgeOriginAllowList) : null);
-    settings.put("javaScriptBridgeForMainFrameOnly", javaScriptBridgeForMainFrameOnly);
-    settings.put("pluginScriptsOriginAllowList",
-            pluginScriptsOriginAllowList != null ? new ArrayList<>(pluginScriptsOriginAllowList) : null);
-    settings.put("pluginScriptsForMainFrameOnly", pluginScriptsForMainFrameOnly);
-    settings.put("isUserInteractionEnabled", isUserInteractionEnabled);
-    settings.put("alpha", alpha);
-    settings.put("useOnShowFileChooser", useOnShowFileChooser);
     return settings;
   }
 
@@ -612,8 +521,6 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
     Map<String, Object> realSettings = toMap();
     if (inAppWebView instanceof InAppWebView) {
       InAppWebView webView = (InAppWebView) inAppWebView;
-      realSettings.put("alpha", webView.getAlpha());
-
       WebSettings settings = webView.getSettings();
       realSettings.put("userAgent", settings.getUserAgentString());
       realSettings.put("javaScriptEnabled", settings.getJavaScriptEnabled());
@@ -650,8 +557,7 @@ public class InAppWebViewSettings implements ISettings<InAppWebViewInterface> {
       realSettings.put("defaultTextEncodingName", settings.getDefaultTextEncodingName());
       if (WebViewFeature.isFeatureSupported(WebViewFeature.DISABLED_ACTION_MODE_MENU_ITEMS)) {
         realSettings.put("disabledActionModeMenuItems", WebSettingsCompat.getDisabledActionModeMenuItems(settings));
-      }
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+      } if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
         realSettings.put("disabledActionModeMenuItems", settings.getDisabledActionModeMenuItems());
       }
       realSettings.put("fantasyFontFamily", settings.getFantasyFontFamily());

@@ -1,6 +1,5 @@
 import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_internal_annotations.dart';
 
-import 'enum_method.dart';
 import 'ssl_certificate.dart';
 
 part 'ssl_certificate_dname.g.dart';

@@ -50,52 +50,33 @@ class CSSLinkHtmlTagAttributes {
       this.title});
 
   ///Gets a possible [CSSLinkHtmlTagAttributes] instance from a [Map] value.
-  static CSSLinkHtmlTagAttributes? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static CSSLinkHtmlTagAttributes? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = CSSLinkHtmlTagAttributes(
       alternate: map['alternate'],
-      crossOrigin: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          CrossOrigin.fromNativeValue(map['crossOrigin']),
-        EnumMethod.value => CrossOrigin.fromValue(map['crossOrigin']),
-        EnumMethod.name => CrossOrigin.byName(map['crossOrigin'])
-      },
+      crossOrigin: CrossOrigin.fromNativeValue(map['crossOrigin']),
       disabled: map['disabled'],
       id: map['id'],
       integrity: map['integrity'],
       media: map['media'],
-      referrerPolicy: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          ReferrerPolicy.fromNativeValue(map['referrerPolicy']),
-        EnumMethod.value => ReferrerPolicy.fromValue(map['referrerPolicy']),
-        EnumMethod.name => ReferrerPolicy.byName(map['referrerPolicy'])
-      },
+      referrerPolicy: ReferrerPolicy.fromNativeValue(map['referrerPolicy']),
       title: map['title'],
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "alternate": alternate,
-      "crossOrigin": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => crossOrigin?.toNativeValue(),
-        EnumMethod.value => crossOrigin?.toValue(),
-        EnumMethod.name => crossOrigin?.name()
-      },
+      "crossOrigin": crossOrigin?.toNativeValue(),
       "disabled": disabled,
       "id": id,
       "integrity": integrity,
       "media": media,
-      "referrerPolicy": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => referrerPolicy?.toNativeValue(),
-        EnumMethod.value => referrerPolicy?.toValue(),
-        EnumMethod.name => referrerPolicy?.name()
-      },
+      "referrerPolicy": referrerPolicy?.toNativeValue(),
       "title": title,
     };
   }

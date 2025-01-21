@@ -1,14 +1,13 @@
+#include <ctime>
 #include <nlohmann/json.hpp>
+#include <Shlwapi.h>
+#include <winrt/base.h>
+#include <wrl/event.h>
 
 #include "cookie_manager.h"
-#include "headless_in_app_webview/headless_in_app_webview_manager.h"
-#include "in_app_browser/in_app_browser_manager.h"
-#include "in_app_webview/in_app_webview_manager.h"
 #include "types/callbacks_complete.h"
 #include "utils/flutter.h"
 #include "utils/log.h"
-#include "utils/timer.h"
-
 
 namespace flutter_inappwebview_plugin
 {
@@ -29,26 +28,8 @@ namespace flutter_inappwebview_plugin
     auto webViewEnvironment = plugin && webViewEnvironmentId.has_value() && map_contains(plugin->webViewEnvironmentManager->webViewEnvironments, webViewEnvironmentId.value())
       ? plugin->webViewEnvironmentManager->webViewEnvironments.at(webViewEnvironmentId.value()).get() : nullptr;
 
-    InAppWebView* webView = nullptr;
-    auto webViewIdInt = get_optional_fl_map_value<int64_t>(arguments, "webViewId");
-    auto webViewIdString = !webViewIdInt.has_value() ? get_optional_fl_map_value<std::string>(arguments, "webViewId") : std::optional<std::string>{};
-    if (webViewIdInt.has_value() && plugin->inAppWebViewManager && map_contains(plugin->inAppWebViewManager->webViews, (uint64_t)webViewIdInt.value())) {
-      webView = plugin->inAppWebViewManager->webViews.at(webViewIdInt.value())->view.get();
-    }
-    else if (webViewIdString.has_value()) {
-      if (plugin->inAppWebViewManager && map_contains(plugin->inAppWebViewManager->keepAliveWebViews, webViewIdString.value())) {
-        webView = plugin->inAppWebViewManager->keepAliveWebViews.at(webViewIdString.value())->view.get();
-      }
-      else if (plugin->headlessInAppWebViewManager && map_contains(plugin->headlessInAppWebViewManager->webViews, webViewIdString.value())) {
-        webView = plugin->headlessInAppWebViewManager->webViews.at(webViewIdString.value())->webView.get();
-      }
-      else if (plugin->inAppBrowserManager && map_contains(plugin->inAppBrowserManager->browsers, webViewIdString.value())) {
-        webView = plugin->inAppBrowserManager->browsers.at(webViewIdString.value())->webView.get();
-      }
-    }
-
     auto result_ = std::shared_ptr<flutter::MethodResult<flutter::EncodableValue>>(std::move(result));
-    auto callback = [this, result_, methodName, arguments, webView](WebViewEnvironment* webViewEnvironment)
+    auto callback = [this, result_, methodName, arguments](WebViewEnvironment* webViewEnvironment)
       {
         if (!webViewEnvironment) {
           result_->Error("0", "Cannot obtain the WebViewEnvironment!");
@@ -56,7 +37,7 @@ namespace flutter_inappwebview_plugin
         }
 
         if (string_equals(methodName, "setCookie")) {
-          setCookie(webViewEnvironment, webView, arguments, [result_](const bool& created)
+          setCookie(webViewEnvironment, arguments, [result_](const bool& created)
             {
               result_->Success(created);
             });
@@ -64,14 +45,14 @@ namespace flutter_inappwebview_plugin
         else if (string_equals(methodName, "getCookie")) {
           auto url = get_fl_map_value<std::string>(arguments, "url");
           auto name = get_fl_map_value<std::string>(arguments, "name");
-          getCookie(webViewEnvironment, webView, url, name, [result_](const flutter::EncodableValue& cookie)
+          getCookie(webViewEnvironment, url, name, [result_](const flutter::EncodableValue& cookie)
             {
               result_->Success(cookie);
             });
         }
         else if (string_equals(methodName, "getCookies")) {
           auto url = get_fl_map_value<std::string>(arguments, "url");
-          getCookies(webViewEnvironment, webView, url, [result_](const flutter::EncodableList& cookies)
+          getCookies(webViewEnvironment, url, [result_](const flutter::EncodableList& cookies)
             {
               result_->Success(cookies);
             });
@@ -81,7 +62,7 @@ namespace flutter_inappwebview_plugin
           auto name = get_fl_map_value<std::string>(arguments, "name");
           auto path = get_fl_map_value<std::string>(arguments, "path");
           auto domain = get_optional_fl_map_value<std::string>(arguments, "domain");
-          deleteCookie(webViewEnvironment, webView, url, name, path, domain, [result_](const bool& deleted)
+          deleteCookie(webViewEnvironment, url, name, path, domain, [result_](const bool& deleted)
             {
               result_->Success(deleted);
             });
@@ -90,7 +71,7 @@ namespace flutter_inappwebview_plugin
           auto url = get_fl_map_value<std::string>(arguments, "url");
           auto path = get_fl_map_value<std::string>(arguments, "path");
           auto domain = get_optional_fl_map_value<std::string>(arguments, "domain");
-          deleteCookies(webViewEnvironment, webView, url, path, domain, [result_](const bool& deleted)
+          deleteCookies(webViewEnvironment, url, path, domain, [result_](const bool& deleted)
             {
               result_->Success(deleted);
             });
@@ -117,7 +98,7 @@ namespace flutter_inappwebview_plugin
     }
   }
 
-  void CookieManager::setCookie(WebViewEnvironment* webViewEnvironment, InAppWebView* inAppWebView, const flutter::EncodableMap& map, std::function<void(const bool&)> completionHandler) const
+  void CookieManager::setCookie(WebViewEnvironment* webViewEnvironment, const flutter::EncodableMap& map, std::function<void(const bool&)> completionHandler) const
   {
     if (!plugin || !plugin->webViewEnvironmentManager) {
       if (completionHandler) {
@@ -163,61 +144,22 @@ namespace flutter_inappwebview_plugin
       parameters["sameSite"] = sameSite.value();
     }
 
-    auto callback = [=](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView, bool shouldDestroyWebView)
+    auto hr = webViewEnvironment->getWebView()->CallDevToolsProtocolMethod(L"Network.setCookie", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
+      [completionHandler](HRESULT errorCode, LPCWSTR returnObjectAsJson)
       {
-        if (!webView) {
-          completionHandler(false);
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-          return;
+        if (completionHandler) {
+          completionHandler(succeededOrLog(errorCode));
         }
+        return S_OK;
+      }
+    ).Get());
 
-        auto hr = webView->CallDevToolsProtocolMethod(L"Network.setCookie", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
-          [=](HRESULT errorCode, LPCWSTR returnObjectAsJson)
-          {
-            if (completionHandler) {
-              completionHandler(succeededOrLog(errorCode));
-            }
-
-            if (shouldDestroyWebView && webViewController) {
-              // for an unknown reason, destroying the temp webview just here, after
-              // the execution of this method, causes a crash inside ICoreWebView2,
-              // so we destroy it just after 1 second.
-              Timer::setTimeout([webViewController]()
-                {
-                  if (webViewController) {
-                    webViewController->Close();
-                  }
-                }, 1000);
-            }
-
-            return S_OK;
-          }
-        ).Get());
-
-        if (failedAndLog(hr)) {
-          if (completionHandler) {
-            completionHandler(false);
-          }
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-        }
-      };
-
-    if (inAppWebView && inAppWebView->webView) {
-      callback(nullptr, inAppWebView->webView, false);
-    }
-    else {
-      webViewEnvironment->useTempWebView([this, callback](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView)
-        {
-          callback(webViewController, webView, true);
-        });
+    if (failedAndLog(hr) && completionHandler) {
+      completionHandler(false);
     }
   }
 
-  void CookieManager::getCookie(WebViewEnvironment* webViewEnvironment, InAppWebView* inAppWebView, const std::string& url, const std::string& name, std::function<void(const flutter::EncodableValue&)> completionHandler) const
+  void CookieManager::getCookie(WebViewEnvironment* webViewEnvironment, const std::string& url, const std::string& name, std::function<void(const flutter::EncodableValue&)> completionHandler) const
   {
     if (!plugin || !plugin->webViewEnvironmentManager) {
       if (completionHandler) {
@@ -230,82 +172,43 @@ namespace flutter_inappwebview_plugin
       {"urls", std::vector<std::string>{url}}
     };
 
-    auto callback = [=](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView, bool shouldDestroyWebView)
+    auto hr = webViewEnvironment->getWebView()->CallDevToolsProtocolMethod(L"Network.getCookies", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
+      [completionHandler, name](HRESULT errorCode, LPCWSTR returnObjectAsJson)
       {
-        if (!webView) {
+        if (succeededOrLog(errorCode)) {
+          nlohmann::json json = nlohmann::json::parse(wide_to_utf8(returnObjectAsJson));
+          auto jsonCookies = json["cookies"].get<std::vector<nlohmann::json>>();
+          for (auto& jsonCookie : jsonCookies) {
+            auto cookieName = jsonCookie["name"].get<std::string>();
+            if (string_equals(name, cookieName)) {
+              completionHandler(flutter::EncodableMap{
+                {"name", cookieName},
+                {"value", jsonCookie["value"].get<std::string>()},
+                {"domain", jsonCookie["domain"].get<std::string>()},
+                {"path", jsonCookie["path"].get<std::string>()},
+                {"expiresDate", jsonCookie["expires"].get<int64_t>()},
+                {"isHttpOnly", jsonCookie["httpOnly"].get<bool>()},
+                {"isSecure", jsonCookie["secure"].get<bool>()},
+                {"isSessionOnly", jsonCookie["session"].get<bool>()},
+                {"sameSite", jsonCookie.contains("sameSite") ? jsonCookie["sameSite"].get<std::string>() : make_fl_value()}
+                });
+              return S_OK;
+            }
+          }
+        }
+        if (completionHandler) {
           completionHandler(make_fl_value());
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-          return;
         }
+        return S_OK;
+      }
+    ).Get());
 
-        auto hr = webView->CallDevToolsProtocolMethod(L"Network.getCookies", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
-          [=](HRESULT errorCode, LPCWSTR returnObjectAsJson)
-          {
-            if (succeededOrLog(errorCode)) {
-              nlohmann::json json = nlohmann::json::parse(wide_to_utf8(returnObjectAsJson));
-              auto jsonCookies = json["cookies"].get<std::vector<nlohmann::json>>();
-              for (auto& jsonCookie : jsonCookies) {
-                auto cookieName = jsonCookie["name"].get<std::string>();
-                if (string_equals(name, cookieName)) {
-                  completionHandler(flutter::EncodableMap{
-                    {"name", cookieName},
-                    {"value", jsonCookie["value"].get<std::string>()},
-                    {"domain", jsonCookie["domain"].get<std::string>()},
-                    {"path", jsonCookie["path"].get<std::string>()},
-                    {"expiresDate", jsonCookie["expires"].get<int64_t>()},
-                    {"isHttpOnly", jsonCookie["httpOnly"].get<bool>()},
-                    {"isSecure", jsonCookie["secure"].get<bool>()},
-                    {"isSessionOnly", jsonCookie["session"].get<bool>()},
-                    {"sameSite", jsonCookie.contains("sameSite") ? jsonCookie["sameSite"].get<std::string>() : make_fl_value()}
-                    });
-                  return S_OK;
-                }
-              }
-            }
-            if (completionHandler) {
-              completionHandler(make_fl_value());
-            }
-
-            if (shouldDestroyWebView && webViewController) {
-              // for an unknown reason, destroying the temp webview just here, after
-              // the execution of this method, causes a crash inside ICoreWebView2,
-              // so we destroy it just after 1 second.
-              Timer::setTimeout([webViewController]()
-                {
-                  if (webViewController) {
-                    webViewController->Close();
-                  }
-                }, 1000);
-            }
-
-            return S_OK;
-          }
-        ).Get());
-
-        if (failedAndLog(hr)) {
-          if (completionHandler) {
-            completionHandler(make_fl_value());
-          }
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-        }
-      };
-
-    if (inAppWebView && inAppWebView->webView) {
-      callback(nullptr, inAppWebView->webView, false);
-    }
-    else {
-      webViewEnvironment->useTempWebView([callback](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView)
-        {
-          callback(webViewController, webView, true);
-        });
+    if (failedAndLog(hr) && completionHandler) {
+      completionHandler(make_fl_value());
     }
   }
 
-  void CookieManager::getCookies(WebViewEnvironment* webViewEnvironment, InAppWebView* inAppWebView, const std::string& url, std::function<void(const flutter::EncodableList&)> completionHandler) const
+  void CookieManager::getCookies(WebViewEnvironment* webViewEnvironment, const std::string& url, std::function<void(const flutter::EncodableList&)> completionHandler) const
   {
     if (!plugin || !plugin->webViewEnvironmentManager) {
       if (completionHandler) {
@@ -318,80 +221,40 @@ namespace flutter_inappwebview_plugin
       {"urls", std::vector<std::string>{url}}
     };
 
-    auto callback = [=](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView, bool shouldDestroyWebView)
+    auto hr = webViewEnvironment->getWebView()->CallDevToolsProtocolMethod(L"Network.getCookies", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
+      [completionHandler](HRESULT errorCode, LPCWSTR returnObjectAsJson)
       {
-        if (!webView) {
-          completionHandler({});
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-          return;
-        }
-
-        auto hr = webView->CallDevToolsProtocolMethod(L"Network.getCookies", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
-          [=](HRESULT errorCode, LPCWSTR returnObjectAsJson)
-          {
-            std::vector<flutter::EncodableValue> cookies = {};
-            if (succeededOrLog(errorCode)) {
-              nlohmann::json json = nlohmann::json::parse(wide_to_utf8(returnObjectAsJson));
-              auto jsonCookies = json["cookies"].get<std::vector<nlohmann::json>>();
-              for (auto& jsonCookie : jsonCookies) {
-                cookies.push_back(flutter::EncodableMap{
-                  {"name", jsonCookie["name"].get<std::string>()},
-                  {"value", jsonCookie["value"].get<std::string>()},
-                  {"domain", jsonCookie["domain"].get<std::string>()},
-                  {"path", jsonCookie["path"].get<std::string>()},
-                  {"expiresDate", jsonCookie["expires"].get<int64_t>()},
-                  {"isHttpOnly", jsonCookie["httpOnly"].get<bool>()},
-                  {"isSecure", jsonCookie["secure"].get<bool>()},
-                  {"isSessionOnly", jsonCookie["session"].get<bool>()},
-                  {"sameSite", jsonCookie.contains("sameSite") ? jsonCookie["sameSite"].get<std::string>() : make_fl_value()}
-                  });
-              }
-            }
-
-            if (completionHandler) {
-              completionHandler(cookies);
-            }
-
-            if (shouldDestroyWebView && webViewController) {
-              // for an unknown reason, destroying the temp webview just here, after
-              // the execution of this method, causes a crash inside ICoreWebView2,
-              // so we destroy it just after 1 second.
-              Timer::setTimeout([webViewController]()
-                {
-                  if (webViewController) {
-                    webViewController->Close();
-                  }
-                }, 1000);
-            }
-
-            return S_OK;
-          }
-        ).Get());
-
-        if (failedAndLog(hr)) {
-          if (completionHandler) {
-            completionHandler({});
-          }
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
+        std::vector<flutter::EncodableValue> cookies = {};
+        if (succeededOrLog(errorCode)) {
+          nlohmann::json json = nlohmann::json::parse(wide_to_utf8(returnObjectAsJson));
+          auto jsonCookies = json["cookies"].get<std::vector<nlohmann::json>>();
+          for (auto& jsonCookie : jsonCookies) {
+            cookies.push_back(flutter::EncodableMap{
+              {"name", jsonCookie["name"].get<std::string>()},
+              {"value", jsonCookie["value"].get<std::string>()},
+              {"domain", jsonCookie["domain"].get<std::string>()},
+              {"path", jsonCookie["path"].get<std::string>()},
+              {"expiresDate", jsonCookie["expires"].get<int64_t>()},
+              {"isHttpOnly", jsonCookie["httpOnly"].get<bool>()},
+              {"isSecure", jsonCookie["secure"].get<bool>()},
+              {"isSessionOnly", jsonCookie["session"].get<bool>()},
+              {"sameSite", jsonCookie.contains("sameSite") ? jsonCookie["sameSite"].get<std::string>() : make_fl_value()}
+              });
           }
         }
-      };
+        if (completionHandler) {
+          completionHandler(cookies);
+        }
+        return S_OK;
+      }
+    ).Get());
 
-    if (inAppWebView && inAppWebView->webView) {
-      callback(nullptr, inAppWebView->webView, false);
-    }
-    else {
-      webViewEnvironment->useTempWebView([callback](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView)
-        {
-          callback(webViewController, webView, true);
-        });
+    if (failedAndLog(hr) && completionHandler) {
+      completionHandler({});
     }
   }
 
-  void CookieManager::deleteCookie(WebViewEnvironment* webViewEnvironment, InAppWebView* inAppWebView, const std::string& url, const std::string& name, const std::string& path, const std::optional<std::string>& domain, std::function<void(const bool&)> completionHandler) const
+  void CookieManager::deleteCookie(WebViewEnvironment* webViewEnvironment, const std::string& url, const std::string& name, const std::string& path, const std::optional<std::string>& domain, std::function<void(const bool&)> completionHandler) const
   {
     if (!plugin || !plugin->webViewEnvironmentManager) {
       if (completionHandler) {
@@ -409,61 +272,22 @@ namespace flutter_inappwebview_plugin
       parameters["domain"] = domain.value();
     }
 
-    auto callback = [=](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView, bool shouldDestroyWebView)
+    auto hr = webViewEnvironment->getWebView()->CallDevToolsProtocolMethod(L"Network.deleteCookies", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
+      [completionHandler](HRESULT errorCode, LPCWSTR returnObjectAsJson)
       {
-        if (!webView) {
-          completionHandler(false);
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-          return;
+        if (completionHandler) {
+          completionHandler(succeededOrLog(errorCode));
         }
+        return S_OK;
+      }
+    ).Get());
 
-        auto hr = webView->CallDevToolsProtocolMethod(L"Network.deleteCookies", utf8_to_wide(parameters.dump()).c_str(), Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
-          [=](HRESULT errorCode, LPCWSTR returnObjectAsJson)
-          {
-            if (completionHandler) {
-              completionHandler(succeededOrLog(errorCode));
-            }
-
-            if (shouldDestroyWebView && webViewController) {
-              // for an unknown reason, destroying the temp webview just here, after
-              // the execution of this method, causes a crash inside ICoreWebView2,
-              // so we destroy it just after 1 second.
-              Timer::setTimeout([webViewController]()
-                {
-                  if (webViewController) {
-                    webViewController->Close();
-                  }
-                }, 1000);
-            }
-
-            return S_OK;
-          }
-        ).Get());
-
-        if (failedAndLog(hr)) {
-          if (completionHandler) {
-            completionHandler(false);
-          }
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-        }
-      };
-
-    if (inAppWebView && inAppWebView->webView) {
-      callback(nullptr, inAppWebView->webView, false);
-    }
-    else {
-      webViewEnvironment->useTempWebView([callback](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView)
-        {
-          callback(webViewController, webView, true);
-        });
+    if (failedAndLog(hr) && completionHandler) {
+      completionHandler(false);
     }
   }
 
-  void CookieManager::deleteCookies(WebViewEnvironment* webViewEnvironment, InAppWebView* inAppWebView, const std::string& url, const std::string& path, const std::optional<std::string>& domain, std::function<void(const bool&)> completionHandler) const
+  void CookieManager::deleteCookies(WebViewEnvironment* webViewEnvironment, const std::string& url, const std::string& path, const std::optional<std::string>& domain, std::function<void(const bool&)> completionHandler) const
   {
     if (!plugin || !plugin->webViewEnvironmentManager) {
       if (completionHandler) {
@@ -472,7 +296,7 @@ namespace flutter_inappwebview_plugin
       return;
     }
 
-    getCookies(webViewEnvironment, inAppWebView, url, [this, webViewEnvironment, inAppWebView, url, path, domain, completionHandler](const flutter::EncodableList& cookies)
+    getCookies(webViewEnvironment, url, [this, webViewEnvironment, url, path, domain, completionHandler](const flutter::EncodableList& cookies)
       {
         auto callbacksComplete = std::make_shared<CallbacksComplete<bool>>(
           [completionHandler](const std::vector<bool>& values)
@@ -485,7 +309,7 @@ namespace flutter_inappwebview_plugin
         for (auto& cookie : cookies) {
           auto cookieMap = std::get<flutter::EncodableMap>(cookie);
           auto name = get_fl_map_value<std::string>(cookieMap, "name");
-          deleteCookie(webViewEnvironment, inAppWebView, url, name, path, domain, [callbacksComplete](const bool& deleted)
+          deleteCookie(webViewEnvironment, url, name, path, domain, [callbacksComplete](const bool& deleted)
             {
               callbacksComplete->addValue(deleted);
             });
@@ -493,7 +317,7 @@ namespace flutter_inappwebview_plugin
       });
   }
 
-  void CookieManager::deleteAllCookies(WebViewEnvironment* webViewEnvironment, std::function<void(const bool&)> completionHandler)
+  void CookieManager::deleteAllCookies(WebViewEnvironment* webViewEnvironment, std::function<void(const bool&)> completionHandler) const
   {
     if (!plugin || !plugin->webViewEnvironmentManager) {
       if (completionHandler) {
@@ -502,53 +326,19 @@ namespace flutter_inappwebview_plugin
       return;
     }
 
-    auto callback = [=](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView, bool shouldDestroyWebView)
+    auto hr = webViewEnvironment->getWebView()->CallDevToolsProtocolMethod(L"Network.clearBrowserCookies", L"{}", Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
+      [completionHandler](HRESULT errorCode, LPCWSTR returnObjectAsJson)
       {
-        if (!webView) {
-          completionHandler(false);
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-          return;
+        if (completionHandler) {
+          completionHandler(succeededOrLog(errorCode));
         }
+        return S_OK;
+      }
+    ).Get());
 
-        auto hr = webView->CallDevToolsProtocolMethod(L"Network.clearBrowserCookies", L"{}", Callback<ICoreWebView2CallDevToolsProtocolMethodCompletedHandler>(
-          [=](HRESULT errorCode, LPCWSTR returnObjectAsJson)
-          {
-            if (completionHandler) {
-              completionHandler(succeededOrLog(errorCode));
-            }
-
-            if (shouldDestroyWebView && webViewController) {
-              // for an unknown reason, destroying the temp webview just here, after
-              // the execution of this method, causes a crash inside ICoreWebView2,
-              // so we destroy it just after 1 second.
-              Timer::setTimeout([webViewController]()
-                {
-                  if (webViewController) {
-                    webViewController->Close();
-                  }
-                }, 1000);
-            }
-
-            return S_OK;
-          }
-        ).Get());
-
-        if (failedAndLog(hr)) {
-          if (completionHandler) {
-            completionHandler(false);
-          }
-          if (shouldDestroyWebView && webViewController) {
-            webViewController->Close();
-          }
-        }
-      };
-
-    webViewEnvironment->useTempWebView([callback](wil::com_ptr<ICoreWebView2Controller> webViewController, wil::com_ptr<ICoreWebView2> webView)
-      {
-        callback(webViewController, webView, true);
-      });
+    if (failedAndLog(hr) && completionHandler) {
+      completionHandler(false);
+    }
   }
 
   CookieManager::~CookieManager()

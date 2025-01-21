@@ -26,8 +26,7 @@ abstract class PathHandler
   }
 
   @override
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) =>
-      platform.toMap(enumMethod: enumMethod);
+  Map<String, dynamic> toMap() => platform.toMap();
 
   @override
   Map<String, dynamic> toJson() => platform.toJson();

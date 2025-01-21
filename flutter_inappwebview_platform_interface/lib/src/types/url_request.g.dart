@@ -189,8 +189,7 @@ class URLRequest {
   }
 
   ///Gets a possible [URLRequest] instance from a [Map] value.
-  static URLRequest? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static URLRequest? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -199,61 +198,33 @@ class URLRequest {
       allowsConstrainedNetworkAccess: map['allowsConstrainedNetworkAccess'],
       allowsExpensiveNetworkAccess: map['allowsExpensiveNetworkAccess'],
       assumesHTTP3Capable: map['assumesHTTP3Capable'],
-      attribution: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          URLRequestAttribution.fromNativeValue(map['attribution']),
-        EnumMethod.value => URLRequestAttribution.fromValue(map['attribution']),
-        EnumMethod.name => URLRequestAttribution.byName(map['attribution'])
-      },
+      attribution: URLRequestAttribution.fromNativeValue(map['attribution']),
       body: map['body'] != null
           ? Uint8List.fromList(map['body'].cast<int>())
           : null,
-      cachePolicy: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          URLRequestCachePolicy.fromNativeValue(map['cachePolicy']),
-        EnumMethod.value => URLRequestCachePolicy.fromValue(map['cachePolicy']),
-        EnumMethod.name => URLRequestCachePolicy.byName(map['cachePolicy'])
-      },
+      cachePolicy: URLRequestCachePolicy.fromNativeValue(map['cachePolicy']),
       headers: map['headers']?.cast<String, String>(),
       httpShouldHandleCookies: map['httpShouldHandleCookies'],
       httpShouldUsePipelining: map['httpShouldUsePipelining'],
       iosAllowsCellularAccess: map['allowsCellularAccess'],
       iosAllowsConstrainedNetworkAccess: map['allowsConstrainedNetworkAccess'],
       iosAllowsExpensiveNetworkAccess: map['allowsExpensiveNetworkAccess'],
-      iosCachePolicy: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
+      iosCachePolicy:
           IOSURLRequestCachePolicy.fromNativeValue(map['cachePolicy']),
-        EnumMethod.value =>
-          IOSURLRequestCachePolicy.fromValue(map['cachePolicy']),
-        EnumMethod.name => IOSURLRequestCachePolicy.byName(map['cachePolicy'])
-      },
       iosHttpShouldHandleCookies: map['httpShouldHandleCookies'],
       iosHttpShouldUsePipelining: map['httpShouldUsePipelining'],
       iosMainDocumentURL: map['mainDocumentURL'] != null
           ? Uri.tryParse(map['mainDocumentURL'])
           : null,
-      iosNetworkServiceType: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          IOSURLRequestNetworkServiceType.fromNativeValue(
-              map['networkServiceType']),
-        EnumMethod.value =>
-          IOSURLRequestNetworkServiceType.fromValue(map['networkServiceType']),
-        EnumMethod.name =>
-          IOSURLRequestNetworkServiceType.byName(map['networkServiceType'])
-      },
+      iosNetworkServiceType: IOSURLRequestNetworkServiceType.fromNativeValue(
+          map['networkServiceType']),
       iosTimeoutInterval: map['timeoutInterval'],
       mainDocumentURL: map['mainDocumentURL'] != null
           ? WebUri(map['mainDocumentURL'])
           : null,
       method: map['method'],
-      networkServiceType: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => URLRequestNetworkServiceType.fromNativeValue(
-            map['networkServiceType']),
-        EnumMethod.value =>
-          URLRequestNetworkServiceType.fromValue(map['networkServiceType']),
-        EnumMethod.name =>
-          URLRequestNetworkServiceType.byName(map['networkServiceType'])
-      },
+      networkServiceType: URLRequestNetworkServiceType.fromNativeValue(
+          map['networkServiceType']),
       timeoutInterval: map['timeoutInterval'],
       url: map['url'] != null ? WebUri(map['url']) : null,
     );
@@ -261,33 +232,21 @@ class URLRequest {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "allowsCellularAccess": allowsCellularAccess,
       "allowsConstrainedNetworkAccess": allowsConstrainedNetworkAccess,
       "allowsExpensiveNetworkAccess": allowsExpensiveNetworkAccess,
       "assumesHTTP3Capable": assumesHTTP3Capable,
-      "attribution": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => attribution?.toNativeValue(),
-        EnumMethod.value => attribution?.toValue(),
-        EnumMethod.name => attribution?.name()
-      },
+      "attribution": attribution?.toNativeValue(),
       "body": body,
-      "cachePolicy": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => cachePolicy?.toNativeValue(),
-        EnumMethod.value => cachePolicy?.toValue(),
-        EnumMethod.name => cachePolicy?.name()
-      },
+      "cachePolicy": cachePolicy?.toNativeValue(),
       "headers": headers,
       "httpShouldHandleCookies": httpShouldHandleCookies,
       "httpShouldUsePipelining": httpShouldUsePipelining,
       "mainDocumentURL": mainDocumentURL?.toString(),
       "method": method,
-      "networkServiceType": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => networkServiceType?.toNativeValue(),
-        EnumMethod.value => networkServiceType?.toValue(),
-        EnumMethod.name => networkServiceType?.name()
-      },
+      "networkServiceType": networkServiceType?.toNativeValue(),
       "timeoutInterval": timeoutInterval,
       "url": url?.toString(),
     };

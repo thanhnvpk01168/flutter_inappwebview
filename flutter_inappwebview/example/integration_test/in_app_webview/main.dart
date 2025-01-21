@@ -220,7 +220,7 @@ void main() {
     contentBlocker();
     httpAuthCredentialDatabase();
     onConsoleMessage();
-    onDownloadStarting();
+    onDownloadStartRequest();
     javascriptDialogs();
     onReceivedHttpError();
     onLoadResourceWithCustomScheme();

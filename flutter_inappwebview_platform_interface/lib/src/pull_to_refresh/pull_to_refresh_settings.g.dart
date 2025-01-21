@@ -63,15 +63,13 @@ class PullToRefreshSettings {
       this.slingshotDistance});
 
   ///Gets a possible [PullToRefreshSettings] instance from a [Map] value.
-  static PullToRefreshSettings? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static PullToRefreshSettings? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = PullToRefreshSettings(
       attributedTitle: AttributedString.fromMap(
-          map['attributedTitle']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
+          map['attributedTitle']?.cast<String, dynamic>()),
       backgroundColor: map['backgroundColor'] != null
           ? UtilColor.fromStringRepresentation(map['backgroundColor'])
           : null,
@@ -79,12 +77,7 @@ class PullToRefreshSettings {
           ? UtilColor.fromStringRepresentation(map['color'])
           : null,
       distanceToTriggerSync: map['distanceToTriggerSync'],
-      size: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          PullToRefreshSize.fromNativeValue(map['size']),
-        EnumMethod.value => PullToRefreshSize.fromValue(map['size']),
-        EnumMethod.name => PullToRefreshSize.byName(map['size'])
-      },
+      size: PullToRefreshSize.fromNativeValue(map['size']),
       slingshotDistance: map['slingshotDistance'],
     );
     instance.enabled = map['enabled'];
@@ -92,18 +85,14 @@ class PullToRefreshSettings {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "attributedTitle": attributedTitle?.toMap(enumMethod: enumMethod),
+      "attributedTitle": attributedTitle?.toMap(),
       "backgroundColor": backgroundColor?.toHex(),
       "color": color?.toHex(),
       "distanceToTriggerSync": distanceToTriggerSync,
       "enabled": enabled,
-      "size": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => size?.toNativeValue(),
-        EnumMethod.value => size?.toValue(),
-        EnumMethod.name => size?.name()
-      },
+      "size": size?.toNativeValue(),
       "slingshotDistance": slingshotDistance,
     };
   }

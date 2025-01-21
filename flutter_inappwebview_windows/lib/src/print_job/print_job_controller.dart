@@ -12,7 +12,7 @@ class WindowsPrintJobControllerCreationParams
     extends PlatformPrintJobControllerCreationParams {
   /// Creates a new [WindowsPrintJobControllerCreationParams] instance.
   const WindowsPrintJobControllerCreationParams(
-      {required super.id});
+      {required super.id, super.onComplete});
 
   /// Creates a [WindowsPrintJobControllerCreationParams] instance based on [PlatformPrintJobControllerCreationParams].
   factory WindowsPrintJobControllerCreationParams.fromPlatformPrintJobControllerCreationParams(
@@ -20,7 +20,7 @@ class WindowsPrintJobControllerCreationParams
       // ignore: avoid_unused_constructor_parameters
       PlatformPrintJobControllerCreationParams params) {
     return WindowsPrintJobControllerCreationParams(
-        id: params.id);
+        id: params.id, onComplete: params.onComplete);
   }
 }
 
@@ -35,6 +35,7 @@ class WindowsPrintJobController extends PlatformPrintJobController
               : WindowsPrintJobControllerCreationParams
                   .fromPlatformPrintJobControllerCreationParams(params),
         ) {
+    onComplete = params.onComplete;
     channel = MethodChannel(
         'com.pichillilorenzo/flutter_inappwebview_printjobcontroller_${params.id}');
     handler = _handleMethod;

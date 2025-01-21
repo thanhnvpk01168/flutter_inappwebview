@@ -32,8 +32,7 @@ class FetchRequestFederatedCredential extends FetchRequestCredential {
       : super(type: type);
 
   ///Gets a possible [FetchRequestFederatedCredential] instance from a [Map] value.
-  static FetchRequestFederatedCredential? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static FetchRequestFederatedCredential? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -49,7 +48,7 @@ class FetchRequestFederatedCredential extends FetchRequestCredential {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "type": type,
       "iconURL": iconURL?.toString(),

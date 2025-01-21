@@ -68,44 +68,20 @@ class ModalTransitionStyle {
     return null;
   }
 
-  /// Gets a possible [ModalTransitionStyle] instance value with name [name].
-  ///
-  /// Goes through [ModalTransitionStyle.values] looking for a value with
-  /// name [name], as reported by [ModalTransitionStyle.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static ModalTransitionStyle? byName(String? name) {
-    if (name != null) {
-      try {
-        return ModalTransitionStyle.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [ModalTransitionStyle] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, ModalTransitionStyle> asNameMap() =>
-      <String, ModalTransitionStyle>{
-        for (final value in ModalTransitionStyle.values) value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
 
-  ///Gets the name of the value.
-  String name() {
+  @override
+  int get hashCode => _value.hashCode;
+
+  @override
+  bool operator ==(value) => value == _value;
+
+  @override
+  String toString() {
     switch (_value) {
       case 0:
         return 'COVER_VERTICAL';
@@ -117,17 +93,6 @@ class ModalTransitionStyle {
         return 'PARTIAL_CURL';
     }
     return _value.toString();
-  }
-
-  @override
-  int get hashCode => _value.hashCode;
-
-  @override
-  bool operator ==(value) => value == _value;
-
-  @override
-  String toString() {
-    return name();
   }
 }
 
@@ -195,45 +160,20 @@ class IOSUIModalTransitionStyle {
     return null;
   }
 
-  /// Gets a possible [IOSUIModalTransitionStyle] instance value with name [name].
-  ///
-  /// Goes through [IOSUIModalTransitionStyle.values] looking for a value with
-  /// name [name], as reported by [IOSUIModalTransitionStyle.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static IOSUIModalTransitionStyle? byName(String? name) {
-    if (name != null) {
-      try {
-        return IOSUIModalTransitionStyle.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [IOSUIModalTransitionStyle] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, IOSUIModalTransitionStyle> asNameMap() =>
-      <String, IOSUIModalTransitionStyle>{
-        for (final value in IOSUIModalTransitionStyle.values)
-          value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
 
-  ///Gets the name of the value.
-  String name() {
+  @override
+  int get hashCode => _value.hashCode;
+
+  @override
+  bool operator ==(value) => value == _value;
+
+  @override
+  String toString() {
     switch (_value) {
       case 0:
         return 'COVER_VERTICAL';
@@ -245,16 +185,5 @@ class IOSUIModalTransitionStyle {
         return 'PARTIAL_CURL';
     }
     return _value.toString();
-  }
-
-  @override
-  int get hashCode => _value.hashCode;
-
-  @override
-  bool operator ==(value) => value == _value;
-
-  @override
-  String toString() {
-    return name();
   }
 }

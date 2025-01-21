@@ -13,14 +13,14 @@ class TrustedWebActivityDefaultDisplayMode
   static final String _type = "DEFAULT_MODE";
   TrustedWebActivityDefaultDisplayMode();
   @ExchangeableObjectMethod(toMapMergeWith: true)
-  Map<String, dynamic> _toMapMergeWith({EnumMethod? enumMethod}) {
+  Map<String, dynamic> _toMapMergeWith() {
     return {"type": _type};
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      ..._toMapMergeWith(enumMethod: enumMethod),
+      ..._toMapMergeWith(),
     };
   }
 

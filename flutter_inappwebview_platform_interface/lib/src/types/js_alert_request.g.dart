@@ -33,8 +33,7 @@ class JsAlertRequest {
   }
 
   ///Gets a possible [JsAlertRequest] instance from a [Map] value.
-  static JsAlertRequest? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static JsAlertRequest? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -48,7 +47,7 @@ class JsAlertRequest {
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "isMainFrame": isMainFrame,
       "message": message,

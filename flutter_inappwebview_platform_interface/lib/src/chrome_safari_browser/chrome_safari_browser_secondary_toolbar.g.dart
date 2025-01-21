@@ -35,32 +35,27 @@ class ChromeSafariBrowserSecondaryToolbar {
       {this.clickableIDs = const [], required this.layout});
 
   ///Gets a possible [ChromeSafariBrowserSecondaryToolbar] instance from a [Map] value.
-  static ChromeSafariBrowserSecondaryToolbar? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ChromeSafariBrowserSecondaryToolbar? fromMap(
+      Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ChromeSafariBrowserSecondaryToolbar(
-      layout: AndroidResource.fromMap(map['layout']?.cast<String, dynamic>(),
-          enumMethod: enumMethod)!,
+      layout: AndroidResource.fromMap(map['layout']?.cast<String, dynamic>())!,
     );
-    if (map['clickableIDs'] != null) {
-      instance.clickableIDs =
-          List<ChromeSafariBrowserSecondaryToolbarClickableID>.from(
-              map['clickableIDs'].map((e) =>
-                  ChromeSafariBrowserSecondaryToolbarClickableID.fromMap(
-                      e?.cast<String, dynamic>(),
-                      enumMethod: enumMethod)!));
-    }
+    instance.clickableIDs =
+        List<ChromeSafariBrowserSecondaryToolbarClickableID>.from(
+            map['clickableIDs'].map((e) =>
+                ChromeSafariBrowserSecondaryToolbarClickableID.fromMap(
+                    e?.cast<String, dynamic>())!));
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "clickableIDs":
-          clickableIDs.map((e) => e.toMap(enumMethod: enumMethod)).toList(),
-      "layout": layout.toMap(enumMethod: enumMethod),
+      "clickableIDs": clickableIDs.map((e) => e.toMap()).toList(),
+      "layout": layout.toMap(),
     };
   }
 
@@ -98,22 +93,20 @@ class ChromeSafariBrowserSecondaryToolbarClickableID {
 
   ///Gets a possible [ChromeSafariBrowserSecondaryToolbarClickableID] instance from a [Map] value.
   static ChromeSafariBrowserSecondaryToolbarClickableID? fromMap(
-      Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+      Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ChromeSafariBrowserSecondaryToolbarClickableID(
-      id: AndroidResource.fromMap(map['id']?.cast<String, dynamic>(),
-          enumMethod: enumMethod)!,
+      id: AndroidResource.fromMap(map['id']?.cast<String, dynamic>())!,
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "id": id.toMap(enumMethod: enumMethod),
+      "id": id.toMap(),
     };
   }
 

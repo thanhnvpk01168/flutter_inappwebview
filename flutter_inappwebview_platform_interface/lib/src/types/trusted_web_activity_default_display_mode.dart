@@ -1,6 +1,5 @@
 import 'package:flutter_inappwebview_internal_annotations/flutter_inappwebview_internal_annotations.dart';
 
-import 'enum_method.dart';
 import 'trusted_web_activity_display_mode.dart';
 
 part 'trusted_web_activity_default_display_mode.g.dart';
@@ -14,7 +13,7 @@ class TrustedWebActivityDefaultDisplayMode_
 
   @ExchangeableObjectMethod(toMapMergeWith: true)
   // ignore: unused_element
-  Map<String, dynamic> _toMapMergeWith({EnumMethod? enumMethod}) {
+  Map<String, dynamic> _toMapMergeWith() {
     return {"type": _type};
   }
 

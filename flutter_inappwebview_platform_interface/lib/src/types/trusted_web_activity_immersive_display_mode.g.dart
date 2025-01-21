@@ -33,52 +33,32 @@ class TrustedWebActivityImmersiveDisplayMode
 
   ///Gets a possible [TrustedWebActivityImmersiveDisplayMode] instance from a [Map] value.
   static TrustedWebActivityImmersiveDisplayMode? fromMap(
-      Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+      Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = TrustedWebActivityImmersiveDisplayMode(
       isSticky: map['isSticky'],
-      layoutInDisplayCutoutMode: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
+      layoutInDisplayCutoutMode:
           AndroidLayoutInDisplayCutoutMode.fromNativeValue(
               map['displayCutoutMode']),
-        EnumMethod.value =>
-          AndroidLayoutInDisplayCutoutMode.fromValue(map['displayCutoutMode']),
-        EnumMethod.name =>
-          AndroidLayoutInDisplayCutoutMode.byName(map['displayCutoutMode'])
-      },
     );
-    if (map['displayCutoutMode'] != null) {
-      instance.displayCutoutMode =
-          switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          LayoutInDisplayCutoutMode.fromNativeValue(map['displayCutoutMode']),
-        EnumMethod.value =>
-          LayoutInDisplayCutoutMode.fromValue(map['displayCutoutMode']),
-        EnumMethod.name =>
-          LayoutInDisplayCutoutMode.byName(map['displayCutoutMode'])
-      }!;
-    }
+    instance.displayCutoutMode =
+        LayoutInDisplayCutoutMode.fromNativeValue(map['displayCutoutMode'])!;
     return instance;
   }
 
   @ExchangeableObjectMethod(toMapMergeWith: true)
-  Map<String, dynamic> _toMapMergeWith({EnumMethod? enumMethod}) {
+  Map<String, dynamic> _toMapMergeWith() {
     return {"type": _type};
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "displayCutoutMode": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => displayCutoutMode.toNativeValue(),
-        EnumMethod.value => displayCutoutMode.toValue(),
-        EnumMethod.name => displayCutoutMode.name()
-      },
+      "displayCutoutMode": displayCutoutMode.toNativeValue(),
       "isSticky": isSticky,
-      ..._toMapMergeWith(enumMethod: enumMethod),
+      ..._toMapMergeWith(),
     };
   }
 

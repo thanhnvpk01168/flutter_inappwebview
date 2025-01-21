@@ -13,23 +13,21 @@ class ServerTrustChallenge extends URLAuthenticationChallenge {
       : super(protectionSpace: protectionSpace);
 
   ///Gets a possible [ServerTrustChallenge] instance from a [Map] value.
-  static ServerTrustChallenge? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ServerTrustChallenge? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ServerTrustChallenge(
       protectionSpace: URLProtectionSpace.fromMap(
-          map['protectionSpace']?.cast<String, dynamic>(),
-          enumMethod: enumMethod)!,
+          map['protectionSpace']?.cast<String, dynamic>())!,
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "protectionSpace": protectionSpace.toMap(enumMethod: enumMethod),
+      "protectionSpace": protectionSpace.toMap(),
     };
   }
 

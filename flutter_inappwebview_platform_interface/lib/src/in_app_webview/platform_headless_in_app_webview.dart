@@ -33,10 +33,8 @@ class PlatformHeadlessInAppWebViewCreationParams
       super.shouldOverrideUrlLoading,
       super.onLoadResource,
       super.onScrollChanged,
-      @Deprecated('Use onDownloadStarting instead') super.onDownloadStart,
-      @Deprecated('Use onDownloadStarting instead')
+      @Deprecated('Use onDownloadStartRequest instead') super.onDownloadStart,
       super.onDownloadStartRequest,
-      super.onDownloadStarting,
       @Deprecated('Use onLoadResourceWithCustomScheme instead')
       super.onLoadResourceCustomScheme,
       super.onLoadResourceWithCustomScheme,
@@ -122,9 +120,6 @@ class PlatformHeadlessInAppWebViewCreationParams
       super.onCameraCaptureStateChanged,
       super.onMicrophoneCaptureStateChanged,
       super.onContentSizeChanged,
-      super.onProcessFailed,
-      super.onAcceleratorKeyPressed,
-      super.onShowFileChooser,
       super.initialUrlRequest,
       super.initialFile,
       super.initialData,

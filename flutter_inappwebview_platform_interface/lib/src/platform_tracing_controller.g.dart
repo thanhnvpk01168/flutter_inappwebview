@@ -35,35 +35,22 @@ class TracingSettings {
   }
 
   ///Gets a possible [TracingSettings] instance from a [Map] value.
-  static TracingSettings? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static TracingSettings? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = TracingSettings(
-      tracingMode: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          TracingMode.fromNativeValue(map['tracingMode']),
-        EnumMethod.value => TracingMode.fromValue(map['tracingMode']),
-        EnumMethod.name => TracingMode.byName(map['tracingMode'])
-      },
+      tracingMode: TracingMode.fromNativeValue(map['tracingMode']),
     );
-    if (map['categories'] != null) {
-      instance.categories =
-          _deserializeCategories(map['categories'], enumMethod: enumMethod);
-    }
+    instance.categories = _deserializeCategories(map['categories']);
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "categories": _serializeCategories(categories, enumMethod: enumMethod),
-      "tracingMode": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => tracingMode?.toNativeValue(),
-        EnumMethod.value => tracingMode?.toValue(),
-        EnumMethod.name => tracingMode?.name()
-      },
+      "categories": _serializeCategories(categories),
+      "tracingMode": tracingMode?.toNativeValue(),
     };
   }
 

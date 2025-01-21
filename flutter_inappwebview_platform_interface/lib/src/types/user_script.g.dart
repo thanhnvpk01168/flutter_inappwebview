@@ -9,38 +9,19 @@ part of 'user_script.dart';
 ///Class that represents a script that the `WebView` injects into the web page.
 class UserScript {
   ///A set of matching rules for the allowed origins.
-  ///Adding `'*'` as an allowed origin or setting this to `null`, it means it will allow every origin.
-  ///Instead, an empty [Set] will block every origin.
   ///
-  ///**NOTE for Android**: each origin pattern MUST follow the table rule of [PlatformInAppWebViewController.addWebMessageListener].
-  ///
-  ///**NOTE for iOS, macOS, Windows**: each origin pattern will be used as a
-  ///Regular Expression Pattern that will be used on JavaScript side using [RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp).
-  ///
-  ///**Officially Supported Platforms/Implementations**:
-  ///- Android native WebView
-  ///- iOS
-  ///- MacOS
-  ///- Windows
+  ///**NOTE**: available only on Android and only if [WebViewFeature.DOCUMENT_START_SCRIPT] feature is supported.
   late Set<String> allowedOriginRules;
 
   ///A scope of execution in which to evaluate the script to prevent conflicts between different scripts.
   ///For more information about content worlds, see [ContentWorld].
-  ///
-  ///**NOTE for Android**: because of how a Content World is implemented on Android, if [forMainFrameOnly] is `true`,
-  ///the [source] inside a specific Content World that is not [ContentWorld.PAGE] will not be executed.
-  ///See [ContentWorld] for more details.
   late ContentWorld contentWorld;
 
   ///A Boolean value that indicates whether to inject the script into the main frame.
-  ///Specify `true` to inject the script only into the main frame, or false to inject it into all frames.
+  ///Specify true to inject the script only into the main frame, or false to inject it into all frames.
   ///The default value is `true`.
   ///
-  ///**Officially Supported Platforms/Implementations**:
-  ///- Android native WebView
-  ///- iOS
-  ///- MacOS
-  ///- Windows
+  ///**NOTE**: available only on iOS and MacOS.
   bool forMainFrameOnly;
 
   ///The script’s group name.
@@ -72,50 +53,32 @@ class UserScript {
   }
 
   ///Gets a possible [UserScript] instance from a [Map] value.
-  static UserScript? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static UserScript? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = UserScript(
       groupName: map['groupName'],
-      injectionTime: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          UserScriptInjectionTime.fromNativeValue(map['injectionTime']),
-        EnumMethod.value =>
-          UserScriptInjectionTime.fromValue(map['injectionTime']),
-        EnumMethod.name => UserScriptInjectionTime.byName(map['injectionTime'])
-      }!,
+      injectionTime:
+          UserScriptInjectionTime.fromNativeValue(map['injectionTime'])!,
       iosForMainFrameOnly: map['forMainFrameOnly'],
       source: map['source'],
     );
-    if (map['allowedOriginRules'] != null) {
-      instance.allowedOriginRules =
-          Set<String>.from(map['allowedOriginRules']!.cast<String>());
-    }
-    if (map['contentWorld'] != null) {
-      instance.contentWorld = ContentWorld.fromMap(
-          map['contentWorld']?.cast<String, dynamic>(),
-          enumMethod: enumMethod)!;
-    }
-    if (map['forMainFrameOnly'] != null) {
-      instance.forMainFrameOnly = map['forMainFrameOnly'];
-    }
+    instance.allowedOriginRules =
+        Set<String>.from(map['allowedOriginRules']!.cast<String>());
+    instance.contentWorld = map['contentWorld'];
+    instance.forMainFrameOnly = map['forMainFrameOnly'];
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "allowedOriginRules": allowedOriginRules.toList(),
-      "contentWorld": contentWorld.toMap(enumMethod: enumMethod),
+      "contentWorld": contentWorld.toMap(),
       "forMainFrameOnly": forMainFrameOnly,
       "groupName": groupName,
-      "injectionTime": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => injectionTime.toNativeValue(),
-        EnumMethod.value => injectionTime.toValue(),
-        EnumMethod.name => injectionTime.name()
-      },
+      "injectionTime": injectionTime.toNativeValue(),
       "source": source,
     };
   }

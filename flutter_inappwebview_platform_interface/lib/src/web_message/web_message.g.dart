@@ -56,51 +56,11 @@ class WebMessageType {
     return null;
   }
 
-  /// Gets a possible [WebMessageType] instance value with name [name].
-  ///
-  /// Goes through [WebMessageType.values] looking for a value with
-  /// name [name], as reported by [WebMessageType.name].
-  /// Returns the first value with the given name, otherwise `null`.
-  static WebMessageType? byName(String? name) {
-    if (name != null) {
-      try {
-        return WebMessageType.values
-            .firstWhere((element) => element.name() == name);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  /// Creates a map from the names of [WebMessageType] values to the values.
-  ///
-  /// The collection that this method is called on is expected to have
-  /// values with distinct names, like the `values` list of an enum class.
-  /// Only one value for each name can occur in the created map,
-  /// so if two or more values have the same name (either being the
-  /// same value, or being values of different enum type), at most one of
-  /// them will be represented in the returned map.
-  static Map<String, WebMessageType> asNameMap() => <String, WebMessageType>{
-        for (final value in WebMessageType.values) value.name(): value
-      };
-
   ///Gets [int] value.
   int toValue() => _value;
 
   ///Gets [int] native value.
   int toNativeValue() => _nativeValue;
-
-  ///Gets the name of the value.
-  String name() {
-    switch (_value) {
-      case 1:
-        return 'ARRAY_BUFFER';
-      case 0:
-        return 'STRING';
-    }
-    return _value.toString();
-  }
 
   @override
   int get hashCode => _value.hashCode;
@@ -110,7 +70,13 @@ class WebMessageType {
 
   @override
   String toString() {
-    return name();
+    switch (_value) {
+      case 1:
+        return 'ARRAY_BUFFER';
+      case 0:
+        return 'STRING';
+    }
+    return _value.toString();
   }
 }
 
@@ -138,8 +104,7 @@ class WebMessage {
   }
 
   ///Gets a possible [WebMessage] instance from a [Map] value.
-  static WebMessage? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static WebMessage? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
@@ -148,25 +113,17 @@ class WebMessage {
       ports: map['ports'] != null
           ? List<IWebMessagePort>.from(map['ports'].map((e) => e))
           : null,
-      type: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => WebMessageType.fromNativeValue(map['type']),
-        EnumMethod.value => WebMessageType.fromValue(map['type']),
-        EnumMethod.name => WebMessageType.byName(map['type'])
-      }!,
+      type: WebMessageType.fromNativeValue(map['type'])!,
     );
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "data": data,
-      "ports": ports?.map((e) => e.toMap(enumMethod: enumMethod)).toList(),
-      "type": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => type.toNativeValue(),
-        EnumMethod.value => type.toValue(),
-        EnumMethod.name => type.name()
-      },
+      "ports": ports?.map((e) => e.toMap()).toList(),
+      "type": type.toNativeValue(),
     };
   }
 

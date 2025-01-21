@@ -8,9 +8,8 @@ import java.util.Set;
 public class PluginScript extends UserScript {
   private boolean requiredInAllContentWorlds;
 
-  public PluginScript(@Nullable String groupName, @NonNull String source, @NonNull UserScriptInjectionTime injectionTime,
-                      @Nullable ContentWorld contentWorld, boolean requiredInAllContentWorlds, @Nullable Set<String> allowedOriginRules, boolean forMainFrameOnly) {
-    super(groupName, source, injectionTime, contentWorld, allowedOriginRules, forMainFrameOnly);
+  public PluginScript(@Nullable String groupName, @NonNull String source, @NonNull UserScriptInjectionTime injectionTime, @Nullable ContentWorld contentWorld, boolean requiredInAllContentWorlds, @Nullable Set<String> allowedOriginRules) {
+    super(groupName, source, injectionTime, contentWorld, allowedOriginRules);
     this.requiredInAllContentWorlds = requiredInAllContentWorlds;
   }
 

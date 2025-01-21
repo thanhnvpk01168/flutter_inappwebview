@@ -86,56 +86,35 @@ class ScriptHtmlTagAttributes {
   }
 
   ///Gets a possible [ScriptHtmlTagAttributes] instance from a [Map] value.
-  static ScriptHtmlTagAttributes? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ScriptHtmlTagAttributes? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ScriptHtmlTagAttributes(
       async: map['async'],
-      crossOrigin: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          CrossOrigin.fromNativeValue(map['crossOrigin']),
-        EnumMethod.value => CrossOrigin.fromValue(map['crossOrigin']),
-        EnumMethod.name => CrossOrigin.byName(map['crossOrigin'])
-      },
+      crossOrigin: CrossOrigin.fromNativeValue(map['crossOrigin']),
       defer: map['defer'],
       id: map['id'],
       integrity: map['integrity'],
       noModule: map['noModule'],
       nonce: map['nonce'],
-      referrerPolicy: switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue =>
-          ReferrerPolicy.fromNativeValue(map['referrerPolicy']),
-        EnumMethod.value => ReferrerPolicy.fromValue(map['referrerPolicy']),
-        EnumMethod.name => ReferrerPolicy.byName(map['referrerPolicy'])
-      },
+      referrerPolicy: ReferrerPolicy.fromNativeValue(map['referrerPolicy']),
     );
-    if (map['type'] != null) {
-      instance.type = map['type'];
-    }
+    instance.type = map['type'];
     return instance;
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
       "async": async,
-      "crossOrigin": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => crossOrigin?.toNativeValue(),
-        EnumMethod.value => crossOrigin?.toValue(),
-        EnumMethod.name => crossOrigin?.name()
-      },
+      "crossOrigin": crossOrigin?.toNativeValue(),
       "defer": defer,
       "id": id,
       "integrity": integrity,
       "noModule": noModule,
       "nonce": nonce,
-      "referrerPolicy": switch (enumMethod ?? EnumMethod.nativeValue) {
-        EnumMethod.nativeValue => referrerPolicy?.toNativeValue(),
-        EnumMethod.value => referrerPolicy?.toValue(),
-        EnumMethod.name => referrerPolicy?.name()
-      },
+      "referrerPolicy": referrerPolicy?.toNativeValue(),
       "type": type,
     };
   }

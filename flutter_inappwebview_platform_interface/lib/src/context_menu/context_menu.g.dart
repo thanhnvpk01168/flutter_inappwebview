@@ -52,41 +52,34 @@ class ContextMenu {
       this.onContextMenuActionItemClicked});
 
   ///Gets a possible [ContextMenu] instance from a [Map] value.
-  static ContextMenu? fromMap(Map<String, dynamic>? map,
-      {EnumMethod? enumMethod}) {
+  static ContextMenu? fromMap(Map<String, dynamic>? map) {
     if (map == null) {
       return null;
     }
     final instance = ContextMenu(
-      menuItems: List<ContextMenuItem>.from(map['menuItems'].map((e) =>
-          ContextMenuItem.fromMap(e?.cast<String, dynamic>(),
-              enumMethod: enumMethod)!)),
-      options: ContextMenuOptions.fromMap(
-          map['settings']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
-      settings: ContextMenuSettings.fromMap(
-          map['settings']?.cast<String, dynamic>(),
-          enumMethod: enumMethod),
+      menuItems: List<ContextMenuItem>.from(map['menuItems']
+          .map((e) => ContextMenuItem.fromMap(e?.cast<String, dynamic>())!)),
+      options: map['settings'],
+      settings:
+          ContextMenuSettings.fromMap(map['settings']?.cast<String, dynamic>()),
     );
     return instance;
   }
 
   @ExchangeableObjectMethod(toMapMergeWith: true)
-  Map<String, dynamic> _toMapMergeWith({EnumMethod? enumMethod}) {
+  Map<String, dynamic> _toMapMergeWith() {
     return {
       "settings":
-          (settings as ContextMenuSettings?)?.toMap(enumMethod: enumMethod) ??
-              (options as ContextMenuOptions?)?.toMap(enumMethod: enumMethod)
+          (settings as ContextMenuSettings?)?.toMap() ?? options?.toMap()
     };
   }
 
   ///Converts instance to a map.
-  Map<String, dynamic> toMap({EnumMethod? enumMethod}) {
+  Map<String, dynamic> toMap() {
     return {
-      "menuItems":
-          menuItems.map((e) => e.toMap(enumMethod: enumMethod)).toList(),
-      "settings": settings?.toMap(enumMethod: enumMethod),
-      ..._toMapMergeWith(enumMethod: enumMethod),
+      "menuItems": menuItems.map((e) => e.toMap()).toList(),
+      "settings": settings?.toMap(),
+      ..._toMapMergeWith(),
     };
   }
 
