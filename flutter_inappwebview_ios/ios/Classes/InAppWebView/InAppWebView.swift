@@ -3142,8 +3142,8 @@ if(window.\(JAVASCRIPT_BRIDGE_NAME)[\(_callHandlerID)] != null) {
         self.scrollView.subviews.first?.resignFirstResponder()
     }
 
-    public func requestFocus() {
-        self.scrollView.subviews.first?.becomeFirstResponder()
+    public func requestFocus() -> Bool {
+        return self.scrollView.subviews.first?.becomeFirstResponder() ?? false
     }
     
     public func getCertificate() -> SslCertificate? {

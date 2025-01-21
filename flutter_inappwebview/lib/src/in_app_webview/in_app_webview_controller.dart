@@ -291,7 +291,11 @@ class InAppWebViewController {
       platform.getHitTestResult();
 
   ///{@macro flutter_inappwebview_platform_interface.PlatformInAppWebViewController.requestFocus}
-  Future<void> requestFocus() => platform.requestFocus();
+  Future<bool?> requestFocus(
+          {FocusDirection? direction,
+          InAppWebViewRect? previouslyFocusedRect}) =>
+      platform.requestFocus(
+          direction: direction, previouslyFocusedRect: previouslyFocusedRect);
 
   ///{@macro flutter_inappwebview_platform_interface.PlatformInAppWebViewController.clearFocus}
   Future<void> clearFocus() => platform.clearFocus();

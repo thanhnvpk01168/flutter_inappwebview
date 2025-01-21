@@ -349,8 +349,7 @@ public class WebViewChannelDelegate: ChannelDelegate {
             result(true)
             break
         case .requestFocus:
-            webView?.requestFocus()
-            result(true)
+            result(webView?.requestFocus())
             break
         case .setContextMenu:
             if let webView = webView {
